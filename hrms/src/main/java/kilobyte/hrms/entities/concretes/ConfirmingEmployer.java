@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -15,7 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "confirming_employers")
 @PrimaryKeyJoinColumn(name = "confirm_id")
-public class ConfirmingEmployers extends ConfirmationByEmployee{
+@EqualsAndHashCode(callSuper = true)
+public class ConfirmingEmployer extends ConfirmationByEmployee{
 	
 	@Column(name = "employer_id")
 	private int employerId;
