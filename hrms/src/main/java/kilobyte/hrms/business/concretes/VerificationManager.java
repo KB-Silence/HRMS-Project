@@ -11,7 +11,7 @@ import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.VerificationByEmployeeDao;
 import kilobyte.hrms.dataAccess.abstracts.VerificationDao;
 import kilobyte.hrms.entities.concretes.Verification;
-import kilobyte.hrms.entities.concretes.VerificationByEmployee;
+import kilobyte.hrms.entities.concretes.ConfirmationByEmployee;
 
 
 
@@ -40,7 +40,7 @@ public class VerificationManager implements VerificationService{
 
 	@Override
 	public Result addEmployer(int employeeId, int employerId) {
-		VerificationByEmployee verifyBy = new VerificationByEmployee();
+		ConfirmationByEmployee verifyBy = new ConfirmationByEmployee();
 		verifyBy.setEmployeeId(employeeId);
 		verifyBy.setEmployerId(employerId);
 		verifyBy.setVerified(true);
