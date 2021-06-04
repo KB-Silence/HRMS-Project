@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,6 +30,8 @@ public class Position {
 	@Column(name="position_id")
 	private int id;
 	
+	@NotBlank
+	@NotNull
 	@Column(name="position_name")
 	private String positionName;
 	
