@@ -37,7 +37,6 @@ public class UnemployedManager implements UnemployedService {
 		if((this.userService.checkEmail(unemployed.getEmail()).getData() != null) && (this.nationalityIdIsExist(unemployed.getNationalityId()).getData() != null )) {
 			return new ErrorResult("E-Posta adresi ya da TC No zaten mevcut.");
 		}
-		
 		this.unemployedDao.save(unemployed);
 		return new SuccessResult("Yeni iş arayan eklendi.");
 	}
