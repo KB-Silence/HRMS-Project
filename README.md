@@ -1,5 +1,5 @@
 # HRMS-Project(Human Resource Management Service)
-Engin Demiroğ - Yazılımcı Geliştirme (JAVA + REACT) Yerleştirme Kampı HRMS Projesi
+Engin Demiroğ - Yazılımcı Geliştirme (JAVA + REACT) Yetiştirme Kampı HRMS Projesi
 
 ***Last Update: 2021-06-05***  
 **[Güncelleme Notları](https://github.com/KB-Silence/HRMS-Project/commits/main)**  
