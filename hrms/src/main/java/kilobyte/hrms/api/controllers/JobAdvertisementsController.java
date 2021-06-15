@@ -59,4 +59,9 @@ public class JobAdvertisementsController {
 	public DataResult<List<JobAdvertisement>> getAllActiveByEmployerId(@RequestParam int employerId) {
 		return this.advertisementService.getAllActiveByEmployerId(employerId);
 	}
+	
+	@GetMapping("getAllByApproved")
+	public DataResult<List<JobAdvertisement>> getAllByApproved(@RequestParam boolean confirmed) {
+		return this.advertisementService.getAllApproved(confirmed);
+	}
 }

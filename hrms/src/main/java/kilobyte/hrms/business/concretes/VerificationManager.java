@@ -41,7 +41,6 @@ public class VerificationManager implements VerificationService{
 	@Override
 	public Result addEmployer(int employeeId, int employerId) {
 		ConfirmingEmployer verifyBy = new ConfirmingEmployer();
-		verifyBy.setEmployeeId(employeeId);
 		verifyBy.setEmployerId(employerId);
 		verifyBy.setVerifiedStatus(true);
 		this.verificationByEmployee.save(verifyBy);

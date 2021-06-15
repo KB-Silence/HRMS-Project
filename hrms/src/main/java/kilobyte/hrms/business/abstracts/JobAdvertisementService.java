@@ -12,6 +12,7 @@ public interface JobAdvertisementService {
 	Result changeAdvertisementStatus(int advertId, int employerId, boolean status);
 	
 	DataResult<List<JobAdvertisement>> getAll();
+	DataResult<List<JobAdvertisement>> getAllApproved(boolean verified);
 	DataResult<List<JobAdvertisement>> getAllByActive();
 	DataResult<List<JobAdvertisement>> getAllByActiveSorted();
 	DataResult<List<JobAdvertisement>> getAllActiveByEmployerId(int employerId);
