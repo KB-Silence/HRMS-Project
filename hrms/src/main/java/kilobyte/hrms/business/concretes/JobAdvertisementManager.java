@@ -61,4 +61,9 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		return new SuccessResult("İş ilanı durumu değiştirildi.");
 	}
 
+	@Override
+	public DataResult<List<JobAdvertisement>> getAllApproved(boolean verified) {
+		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.getAllByConfirmingJobAdvertisement_VerifiedStatus(verified));
+	}
+
 }
