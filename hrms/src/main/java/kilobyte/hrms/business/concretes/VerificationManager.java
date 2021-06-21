@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 import kilobyte.hrms.business.abstracts.VerificationService;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
-import kilobyte.hrms.dataAccess.abstracts.ConfirmationByEmployeeDao;
 import kilobyte.hrms.dataAccess.abstracts.VerificationDao;
 import kilobyte.hrms.entities.concretes.Verification;
-import kilobyte.hrms.entities.concretes.ConfirmingEmployer;
 
 
 
@@ -19,13 +17,11 @@ import kilobyte.hrms.entities.concretes.ConfirmingEmployer;
 public class VerificationManager implements VerificationService{
 
 	private VerificationDao verificationDao;
-	private ConfirmationByEmployeeDao verificationByEmployee;
 	
 	@Autowired
-	public VerificationManager(VerificationDao verificationDao, ConfirmationByEmployeeDao verificationByEmployee) {
+	public VerificationManager(VerificationDao verificationDao) {
 		super();
 		this.verificationDao = verificationDao;
-		this.verificationByEmployee = verificationByEmployee;
 	}
 
 	@Override
@@ -35,15 +31,6 @@ public class VerificationManager implements VerificationService{
 		verifyCode.setVerificationCode(this.generateCode());
 		verifyCode.setUserId(userId);
 		this.verificationDao.save(verifyCode);
-		return new SuccessResult();
-	}
-
-	@Override
-	public Result addEmployer(int employeeId, int employerId) {
-		ConfirmingEmployer verifyBy = new ConfirmingEmployer();
-		verifyBy.setEmployerId(employerId);
-		verifyBy.setVerifiedStatus(true);
-		this.verificationByEmployee.save(verifyBy);
 		return new SuccessResult();
 	}
 	

@@ -1,7 +1,8 @@
 package kilobyte.hrms.entities.concretes;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class ConfirmingEmployer extends ConfirmationByEmployee{
 	
-	@Column(name = "employer_id")
-	private int employerId;
+	@OneToOne
+	@JoinColumn(name="employer_id", referencedColumnName = "user_id")
+	private Employer employer;
 }

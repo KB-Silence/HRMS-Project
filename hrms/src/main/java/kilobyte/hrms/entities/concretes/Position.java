@@ -28,7 +28,7 @@ public class Position {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="position_id")
-	private int id;
+	private int positionId;
 	
 	@NotBlank
 	@NotNull
