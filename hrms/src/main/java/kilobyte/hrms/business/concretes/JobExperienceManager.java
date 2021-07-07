@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import kilobyte.hrms.business.abstracts.JobExperienceService;
 import kilobyte.hrms.core.utilities.results.DataResult;
+import kilobyte.hrms.core.utilities.results.ErrorResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
@@ -27,6 +28,15 @@ public class JobExperienceManager implements JobExperienceService{
 		this.jobExperienceDao.save(jobExperience);
 		return new SuccessResult("İş tecrübesi eklendi.");
 	}
+	
+	@Override
+	public Result deleteJobExperience(int experienceId) {
+		if(!this.jobExperienceDao.existsById(experienceId)) {
+			return new ErrorResult("İş tecrübesi bilgileri bulunamadı.");
+		}
+		this.jobExperienceDao.deleteById(experienceId);
+		return new SuccessResult("İş tecrübesi bilgileri silindi.");
+	}
 
 	@Override
 	public DataResult<List<JobExperience>> getAll() {
@@ -37,5 +47,7 @@ public class JobExperienceManager implements JobExperienceService{
 	public DataResult<List<JobExperience>> getByUnemployedIdOrderByLeaveDateDesc(int unemployedId) {
 		return new SuccessDataResult<List<JobExperience>>(this.jobExperienceDao.getByUnemployedIdOrderByLeaveDateDesc(unemployedId),"Devam ediyor.");
 	}
+
+
 	
 }

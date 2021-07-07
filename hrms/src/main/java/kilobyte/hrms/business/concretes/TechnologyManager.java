@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import kilobyte.hrms.business.abstracts.TechnologyService;
 import kilobyte.hrms.core.utilities.results.DataResult;
+import kilobyte.hrms.core.utilities.results.ErrorResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
@@ -36,6 +37,15 @@ public class TechnologyManager implements TechnologyService{
 	@Override
 	public DataResult<List<Technology>> getByUnemployedId(int unemployedId) {
 		return new SuccessDataResult<List<Technology>>(this.technologyDao.getByUnemployedId(unemployedId),"İş arayanın teknoloji bilgileri listelendi.");
+	}
+
+	@Override
+	public Result deleteTechnology(int technologyId) {
+		if (!this.technologyDao.existsById(technologyId)) {
+			return new ErrorResult("Teknoloji bilgisi bulunamadı.");
+		}
+		this.technologyDao.deleteById(technologyId);
+		return new SuccessResult("Teknoloji bilgisi silindi.");
 	}
 
 }

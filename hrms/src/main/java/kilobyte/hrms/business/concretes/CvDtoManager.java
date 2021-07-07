@@ -14,7 +14,7 @@ import kilobyte.hrms.business.abstracts.TechnologyService;
 import kilobyte.hrms.core.utilities.results.DataResult;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
-import kilobyte.hrms.entities.concretes.dtos.CvDto;
+import kilobyte.hrms.entities.dtos.CvDto;
 
 @Service
 public class CvDtoManager implements CvDtoService{

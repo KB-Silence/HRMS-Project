@@ -10,4 +10,5 @@ public interface PositionService {
 	
 	Result add(Position position);
 	DataResult<List<Position>> getAll();
+	DataResult<Position> getByPositionName(String positionName);
 }

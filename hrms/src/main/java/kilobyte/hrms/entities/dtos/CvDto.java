@@ -1,4 +1,4 @@
-package kilobyte.hrms.entities.concretes.dtos;
+package kilobyte.hrms.entities.dtos;
 
 import java.util.List;
 
