@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import kilobyte.hrms.business.abstracts.LanguageService;
 import kilobyte.hrms.core.utilities.results.DataResult;
+import kilobyte.hrms.core.utilities.results.ErrorResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
@@ -36,6 +37,14 @@ public class LanguageManager implements LanguageService {
 	@Override
 	public DataResult<List<Language>> getByUnemployedId(int unemployedId) {
 		return new SuccessDataResult<List<Language>>(this.languageDao.getByUnemployedId(unemployedId),"İş arayanın dil bilgileri listelendi.");
+	}
+
+	@Override
+	public Result deleteLanguage(int languageId) {
+		if(!this.languageDao.existsById(languageId)) {
+			return new ErrorResult("Dil bilgisi bulunamadı.");
+		}
+		return new SuccessResult("Dil bilgisi silindi.");
 	}
 
 }

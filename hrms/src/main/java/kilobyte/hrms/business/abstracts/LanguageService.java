@@ -8,6 +8,7 @@ import kilobyte.hrms.entities.concretes.Language;
 
 public interface LanguageService {
 	Result addLanguage(Language language);
+	Result deleteLanguage(int languageId);
 	DataResult<List<Language>> getAll();
 	DataResult<List<Language>> getByUnemployedId(int unemployedId);
 }
