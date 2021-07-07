@@ -8,4 +8,9 @@ Engin Demiroğ - Yazılımcı Geliştirme (JAVA + REACT) Yetiştirme Kampı HRMS
 *İletişim*    
 *[Instagram](https://www.instagram.com/brkcnsrbstt/)*  
 *[LinkedIn](https://www.linkedin.com/in/berkcan-serbest-ba6073a4/)*  
-*Discord Kullanıcı Adım: **Berkcan#9907***
+*Discord Kullanıcı Adım: **Berkcan#9907***  
+
+  
+  
+  
+  **[Ali Hocaoğlu](https://github.com/arawna)'na ve [Ahmet Salih Uçar](https://github.com/ElSenpai)'a teşekkür ederim.**
