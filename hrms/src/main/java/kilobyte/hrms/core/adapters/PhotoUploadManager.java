@@ -18,10 +18,10 @@ import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 
 @Service
 public class PhotoUploadManager implements PhotoUploadService {
-	
+
 	private Cloudinary cloudinary;
 	private Map<String, String> valuesMap = new HashMap<>();
-	
+
 	public PhotoUploadManager() {
 		valuesMap.put("cloud_name", "your_cloud_name");
 		valuesMap.put("api_key", "your_api_key");
@@ -37,7 +37,15 @@ public class PhotoUploadManager implements PhotoUploadService {
 		file.delete();
 		return new SuccessDataResult<>(resultMap);
 	}
-	
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public DataResult<Map> delete(int photoId) throws IOException {
+		String photoIdStr = Integer.toString(photoId);
+		Map result = cloudinary.uploader().destroy(photoIdStr , ObjectUtils.emptyMap());
+		return new SuccessDataResult<Map>(result);
+	}
+
 	private File fileConvert(MultipartFile multipartFile) throws IOException {
 		File file = new File(multipartFile.getOriginalFilename());
 		FileOutputStream fileOutputStream = new FileOutputStream(file);
