@@ -8,10 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","unemployed"})
 public class Technology {
 
 	@Id
@@ -34,8 +35,6 @@ public class Technology {
 	@Column(name = "technology_name")
 	private String technologyName;
 	
-	@Min(1)
-	@Max(5)
 	@Column(name = "technology_level")
 	private int technologyLevel;
 	

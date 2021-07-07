@@ -43,4 +43,6 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
+	@Column(name="mail_is_verify")
+	private Boolean mailIsVerify;
 }

@@ -33,5 +33,5 @@ public class EmploymentType {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="employmentType")
-	private List<JobAdvertisement> jobAdvertisement;
+	private List<JobAdvertisement> jobAdvertisements;
 }

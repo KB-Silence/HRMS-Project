@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","confirmingJobAdvertisement"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","confirmingJobAdvertisement"})
 public class JobAdvertisement {
 
 	@Id
@@ -91,6 +91,8 @@ public class JobAdvertisement {
 	@JsonIgnore
 	@OneToOne(mappedBy="jobAdvertisement")
 	private ConfirmingJobAdvertisement confirmingJobAdvertisement;
+	
+	private Boolean advertIsConfirmed;
 	
 
 }
