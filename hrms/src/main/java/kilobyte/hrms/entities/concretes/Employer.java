@@ -36,8 +36,13 @@ public class Employer extends User {
 	@Column(name = "web_site")
 	private String webSite;
 	
+	@JsonIgnore
 	@Column(name="waiting_for_update")
-	private Boolean waitingForUpdate;
+	private Boolean waitingForUpdate = false;
+	
+	@JsonIgnore
+	@Column(name="employer_is_confirmed")
+	private Boolean employerIsConfirmed = false;
 	
 	@JsonIgnore
 	@OneToOne(mappedBy="employer")
@@ -46,6 +51,4 @@ public class Employer extends User {
 	@OneToMany(mappedBy="employer")
 	@JsonIgnore
 	private List<JobAdvertisement> advertisements;
-	
-	private Boolean employerIsConfirmed;
 }
