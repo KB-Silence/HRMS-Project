@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.TechnologyService;
-import kilobyte.hrms.entities.concretes.Technology;
+import kilobyte.hrms.entities.dtos.TechnologyDto;
 
 @RestController
 @RequestMapping("/api/technologies/")
@@ -27,8 +27,8 @@ public class TechnologiesController {
 	}
 	
 	@PostMapping("addTechnology")
-	public ResponseEntity<?> addTechnology(@RequestBody Technology technology) {
-		return ResponseEntity.ok(this.technologyService.addTechnology(technology));
+	public ResponseEntity<?> addTechnology(@RequestBody TechnologyDto technologyDto) {
+		return ResponseEntity.ok(this.technologyService.addTechnology(technologyDto));
 	}
 	
 	@GetMapping("getAllTechnologies")

@@ -16,6 +16,8 @@ import kilobyte.hrms.business.abstracts.JobAdvertisementService;
 import kilobyte.hrms.core.utilities.results.DataResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.entities.concretes.JobAdvertisement;
+import kilobyte.hrms.entities.dtos.JobAdvertFilterDto;
+import kilobyte.hrms.entities.dtos.JobAdvertisementDto;
 
 @RestController
 @RequestMapping("/api/jobAdvertisements/")
@@ -31,13 +33,18 @@ public class JobAdvertisementsController {
 	}
 	
 	@PostMapping("addAdvertisement")
-	public Result add(@RequestBody JobAdvertisement advertisement) {
-		return this.advertisementService.add(advertisement);
+	public Result add(@RequestBody JobAdvertisementDto advertisementDto) {
+		return this.advertisementService.add(advertisementDto);
+	}
+	
+	@PostMapping("getByApprovedAndFilter")
+	public Result getByApprovedAndFilter(@RequestParam int pageNo, int pageSize, @RequestBody JobAdvertFilterDto advertFilterDto) {
+		return advertisementService.getByAdvertIsConfirmedAndPageNumberAndFilter(pageNo, pageSize, advertFilterDto);
 	}
 	
 	@PutMapping("changeAdvertisementStatus")
-	public Result changeAdvertisementStatus(@RequestParam int advertId, int employerId, boolean status) {
-		return this.advertisementService.changeAdvertisementStatus(advertId, employerId, status);
+	public Result changeAdvertisementStatus(@RequestParam int advertId, boolean status) {
+		return this.advertisementService.changeAdvertisementStatus(advertId, status);
 	}
 	
 	@GetMapping("getAll")
@@ -45,23 +52,23 @@ public class JobAdvertisementsController {
 		return this.advertisementService.getAll();
 	}
 	
-	@GetMapping("getAllByActive")
-	public DataResult<List<JobAdvertisement>> getAllByActive() {
-		return this.advertisementService.getAllByActive();
+	@GetMapping("getByAdvertStatus")
+	public DataResult<List<JobAdvertisement>> getByAdvertStatus() {
+		return this.advertisementService.getByAdvertStatus();
 	}
 	
-	@GetMapping("getAllByActiveSorted")
-	public DataResult<List<JobAdvertisement>> getAllByActiveSorted() {
-		return this.advertisementService.getAllByActiveSorted();
+	@GetMapping("getByAdvertStatusAndSorted")
+	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndSorted() {
+		return this.advertisementService.getByAdvertStatusAndSorted();
 	}
 	
-	@GetMapping("getAllActiveByEmployerId")
-	public DataResult<List<JobAdvertisement>> getAllActiveByEmployerId(@RequestParam int employerId) {
-		return this.advertisementService.getAllActiveByEmployerId(employerId);
+	@GetMapping("getByAdvertStatusTrueAndEmployerId")
+	public DataResult<List<JobAdvertisement>> getByAdvertStatusTrueAndEmployerId(@RequestParam int employerId) {
+		return this.advertisementService.getByAdvertStatusTrueAndEmployerId(employerId);
 	}
 	
-	@GetMapping("getAllByApproved")
-	public DataResult<List<JobAdvertisement>> getAllByApproved(@RequestParam boolean confirmed) {
-		return this.advertisementService.getAllApproved(confirmed);
+	@GetMapping("getAllApproved")
+	public DataResult<List<JobAdvertisement>> getAllApproved(@RequestParam boolean status) {
+		return this.advertisementService.getAllApproved(status);
 	}
 }

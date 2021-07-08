@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.CoverLetterService;
-import kilobyte.hrms.entities.concretes.CoverLetter;
+import kilobyte.hrms.entities.dtos.CoverLetterDto;
 
 @RestController
 @RequestMapping("/api/coverletters/")
@@ -27,8 +27,8 @@ public class CoverLettersController {
 	}
 	
 	@PostMapping("addCoverLetter")
-	public ResponseEntity<?> addCoverLetter(@RequestBody CoverLetter coverLetter) {
-		return ResponseEntity.ok(this.coverLetterService.addCoverLetter(coverLetter));
+	public ResponseEntity<?> addCoverLetter(@RequestBody CoverLetterDto coverLetterDto) {
+		return ResponseEntity.ok(this.coverLetterService.addCoverLetter(coverLetterDto));
 	}
 	
 	@GetMapping("getAll")

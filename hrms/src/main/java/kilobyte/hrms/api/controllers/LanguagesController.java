@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.LanguageService;
-import kilobyte.hrms.entities.concretes.Language;
+import kilobyte.hrms.entities.dtos.LanguageDto;
 
 @RestController
 @RequestMapping("/api/languages/")
@@ -27,8 +27,8 @@ public class LanguagesController {
 	}
 	
 	@PostMapping("addLanguage")
-	public ResponseEntity<?> addLanguage(@RequestBody Language language) {
-		return ResponseEntity.ok(this.languageService.addLanguage(language));
+	public ResponseEntity<?> addLanguage(@RequestBody LanguageDto languageDto) {
+		return ResponseEntity.ok(this.languageService.addLanguage(languageDto));
 	}
 	
 	@GetMapping("getAllLanguages")
