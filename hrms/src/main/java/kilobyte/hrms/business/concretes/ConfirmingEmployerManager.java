@@ -11,28 +11,53 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.ConfirmingEmployerDao;
+import kilobyte.hrms.dataAccess.abstracts.EmployeeDao;
+import kilobyte.hrms.dataAccess.abstracts.EmployerDao;
 import kilobyte.hrms.entities.concretes.ConfirmingEmployer;
+import kilobyte.hrms.entities.concretes.Employer;
 
 @Service
 public class ConfirmingEmployerManager implements ConfirmingEmployerService {
 
+	private EmployeeDao employeeDao;
 	private ConfirmingEmployerDao confirmingEmployerDao;
-	
+	private EmployerDao employerDao;
+
 	@Autowired
-	public ConfirmingEmployerManager(ConfirmingEmployerDao confirmingEmployerDao) {
+	public ConfirmingEmployerManager(EmployeeDao employeeDao, ConfirmingEmployerDao confirmingEmployerDao,
+			EmployerDao employerDao) {
 		super();
+		this.employeeDao = employeeDao;
 		this.confirmingEmployerDao = confirmingEmployerDao;
+		this.employerDao = employerDao;
 	}
-	
+
 	@Override
-	public Result verify(ConfirmingEmployer confirmEmployer) {
+	public Result verify(int employeeId, int employerId, boolean status) {
+
+		Employer employer = this.employerDao.getOne(employerId);
+		ConfirmingEmployer confirmEmployer = new ConfirmingEmployer();
+		
+		confirmEmployer.setEmployee(this.employeeDao.getOne(employeeId));
+		confirmEmployer.setEmployer(this.employerDao.getOne(employerId));
+		confirmEmployer.setVerifiedStatus(status);
+		
+		employer.setEmployerIsConfirmed(true);
+		
+		this.employerDao.save(employer);
 		this.confirmingEmployerDao.save(confirmEmployer);
-		return new SuccessResult();
+
+		return new SuccessResult("İş veren onaylandı.");
 	}
 
 	@Override
 	public DataResult<List<ConfirmingEmployer>> getAll() {
 		return new SuccessDataResult<List<ConfirmingEmployer>>(this.confirmingEmployerDao.findAll());
+	}
+
+	@Override
+	public DataResult<List<Employer>> getByEmployerIsConfirmed(boolean status) {
+		return new SuccessDataResult<List<Employer>>(this.employerDao.getByEmployerIsConfirmed(status), "Onaylanmayan iş verenler listelendi.");
 	}
 
 }

@@ -11,20 +11,32 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.EducationDao;
+import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.entities.concretes.Education;
+import kilobyte.hrms.entities.dtos.EducationDto;
 
 @Service
 public class EducationManager implements EducationService{
 
 	private EducationDao educationDao;
+	private UnemployedDao unemployedDao;
 	
-	public EducationManager(EducationDao educationDao) {
+	public EducationManager(EducationDao educationDao, UnemployedDao unemployedDao) {
 		super();
 		this.educationDao = educationDao;
+		this.unemployedDao = unemployedDao;
 	}
 	
 	@Override
-	public Result addEducation(Education education) {
+	public Result addEducation(EducationDto educationDto) {
+		
+		Education education = new Education();
+		education.setSchoolName(educationDto.getSchoolName());
+		education.setDepartment(educationDto.getDepartment());
+		education.setStartDate(educationDto.getStartDate());
+		education.setGraduatedDate(educationDto.getGraduatedDate());
+		education.setUnemployed(this.unemployedDao.getOne(educationDto.getUnemployedId()));
+		
 		this.educationDao.save(education);
 		return new SuccessResult("Eğitim bilgileri eklendi.");
 	}

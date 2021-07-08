@@ -11,20 +11,29 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.TechnologyDao;
+import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.entities.concretes.Technology;
+import kilobyte.hrms.entities.dtos.TechnologyDto;
 
 @Service
 public class TechnologyManager implements TechnologyService{
 
 	private TechnologyDao technologyDao;
+	private UnemployedDao unemployedDao;
 	
-	public TechnologyManager(TechnologyDao technologyDao) {
+	public TechnologyManager(TechnologyDao technologyDao, UnemployedDao unemployedDao) {
 		super();
 		this.technologyDao = technologyDao;
+		this.unemployedDao = unemployedDao;
 	}
 	
 	@Override
-	public Result addTechnology(Technology technology) {
+	public Result addTechnology(TechnologyDto technologyDto) {
+		Technology technology = new Technology();
+		technology.setTechnologyName(technologyDto.getTechnologyName());
+		technology.setTechnologyLevel(technologyDto.getTechnologyLevel());
+		technology.setUnemployed(this.unemployedDao.getOne(technologyDto.getUnemployedId()));
+		
 		this.technologyDao.save(technology);
 		return new SuccessResult("Teknoloji bilgisi eklendi.");
 	}

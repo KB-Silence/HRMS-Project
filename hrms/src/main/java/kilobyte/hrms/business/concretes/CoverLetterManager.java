@@ -11,21 +11,29 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.CoverLetterDao;
+import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.entities.concretes.CoverLetter;
+import kilobyte.hrms.entities.dtos.CoverLetterDto;
 
 @Service
 public class CoverLetterManager implements CoverLetterService{
 
 	private CoverLetterDao coverLetterDao;
+	private UnemployedDao unemployedDao;
 	
 	@Autowired
-	public CoverLetterManager(CoverLetterDao coverLetterDao) {
+	public CoverLetterManager(CoverLetterDao coverLetterDao, UnemployedDao unemployedDao) {
 		super();
 		this.coverLetterDao = coverLetterDao;
+		this.unemployedDao = unemployedDao;
 	}
 	
 	@Override
-	public Result addCoverLetter(CoverLetter coverLetter) {
+	public Result addCoverLetter(CoverLetterDto coverLetterDto) {
+		CoverLetter coverLetter = new CoverLetter();
+		coverLetter.setLetterContent(coverLetterDto.getLetterContent());
+		coverLetter.setUnemployed(this.unemployedDao.getOne(coverLetterDto.getUnemployedId()));
+		
 		this.coverLetterDao.save(coverLetter);
 		return new SuccessResult("Ön yazı eklendi.");
 	}

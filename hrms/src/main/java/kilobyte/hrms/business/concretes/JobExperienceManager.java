@@ -11,21 +11,33 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.JobExperienceDao;
+import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.entities.concretes.JobExperience;
+import kilobyte.hrms.entities.dtos.JobExperienceDto;
 
 @Service
 public class JobExperienceManager implements JobExperienceService{
 
 	private JobExperienceDao jobExperienceDao;
+	private UnemployedDao unemployedDao;
 	
-	public JobExperienceManager(JobExperienceDao jobExperienceDao) {
+	public JobExperienceManager(JobExperienceDao jobExperienceDao, UnemployedDao unemployedDao) {
 		super();
 		this.jobExperienceDao = jobExperienceDao;
+		this.unemployedDao = unemployedDao;
 	}
 	
 	@Override
-	public Result addJobExperience(JobExperience jobExperience) {
-		this.jobExperienceDao.save(jobExperience);
+	public Result addJobExperience(JobExperienceDto jobExperienceDto) {
+		
+		JobExperience experience = new JobExperience();
+		experience.setWorkplaceName(jobExperienceDto.getWorkplaceName());
+		experience.setPositionName(jobExperienceDto.getPositionName());
+		experience.setStartDate(jobExperienceDto.getStartDate());
+		experience.setLeaveDate(jobExperienceDto.getLeaveDate());
+		experience.setUnemployed(this.unemployedDao.getOne(jobExperienceDto.getUnemployedId()));
+		
+		this.jobExperienceDao.save(experience);
 		return new SuccessResult("İş tecrübesi eklendi.");
 	}
 	

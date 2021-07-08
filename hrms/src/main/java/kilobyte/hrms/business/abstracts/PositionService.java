@@ -8,7 +8,7 @@ import kilobyte.hrms.entities.concretes.Position;
 
 public interface PositionService {
 	
-	Result add(Position position);
+	Result addPosition(Position position);
 	DataResult<List<Position>> getAll();
 	DataResult<Position> getByPositionName(String positionName);
 }
