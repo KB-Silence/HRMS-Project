@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.EducationService;
-import kilobyte.hrms.entities.concretes.Education;
+import kilobyte.hrms.entities.dtos.EducationDto;
 
 @RestController
 @RequestMapping("/api/educations/")
@@ -25,8 +25,8 @@ public class EducationsController {
 	}
 	
 	@PostMapping("addEducations")
-	public ResponseEntity<?> addEducation(@RequestBody Education education) {
-		return ResponseEntity.ok(this.educationService.addEducation(education));
+	public ResponseEntity<?> addEducation(@RequestBody EducationDto educationDto) {
+		return ResponseEntity.ok(this.educationService.addEducation(educationDto));
 	}
 	
 	@GetMapping("getAllEducations")

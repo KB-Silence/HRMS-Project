@@ -11,21 +11,30 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.LinkDao;
+import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.entities.concretes.Link;
+import kilobyte.hrms.entities.dtos.LinkDto;
 
 @Service
 public class LinkManager implements LinkService{
 
 	private LinkDao linkDao;
+	private UnemployedDao unemployedDao;
 	
 	@Autowired
-	public LinkManager(LinkDao linkDao) {
+	public LinkManager(LinkDao linkDao, UnemployedDao unemployedDao) {
 		super();
 		this.linkDao = linkDao;
+		this.unemployedDao = unemployedDao;
 	}
 	
 	@Override
-	public Result addLink(Link link) {
+	public Result addLink(LinkDto linkDto) {
+		Link link = new Link();
+		link.setGithubLink(linkDto.getGithubLink());
+		link.setLinkedinLink(linkDto.getLinkedinLink());
+		link.setUnemployed(this.unemployedDao.getOne(linkDto.getUnemployedId()));
+		
 		this.linkDao.save(link);
 		return new SuccessResult("Link eklendi.");
 	}

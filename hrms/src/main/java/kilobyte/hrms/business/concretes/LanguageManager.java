@@ -2,6 +2,7 @@ package kilobyte.hrms.business.concretes;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kilobyte.hrms.business.abstracts.LanguageService;
@@ -11,20 +12,30 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.LanguageDao;
+import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.entities.concretes.Language;
+import kilobyte.hrms.entities.dtos.LanguageDto;
 
 @Service
 public class LanguageManager implements LanguageService {
 
 	private LanguageDao languageDao;
+	private UnemployedDao unemployedDao;
 	
-	public LanguageManager(LanguageDao languageDao) {
+	@Autowired
+	public LanguageManager(LanguageDao languageDao, UnemployedDao unemployedDao) {
 		super();
 		this.languageDao = languageDao;
+		this.unemployedDao = unemployedDao;
 	}
 	
 	@Override
-	public Result addLanguage(Language language) {
+	public Result addLanguage(LanguageDto languageDto) {
+		Language language = new Language();
+		language.setLanguageName(languageDto.getLanguageName());
+		language.setLanguageLevel(languageDto.getLanguageLevel());
+		language.setUnemployed(this.unemployedDao.getOne(languageDto.getUnemployedId()));
+		
 		this.languageDao.save(language);
 		return new SuccessResult("Dil eklendi.");
 	}

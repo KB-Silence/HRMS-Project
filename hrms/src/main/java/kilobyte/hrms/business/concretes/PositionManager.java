@@ -30,7 +30,7 @@ public class PositionManager implements PositionService {
 	}
 
 	@Override
-	public Result add(Position position) {
+	public Result addPosition(Position position) {
 		if (this.positionIsExist(position.getPositionName()).getData() != null) {
 			return new ErrorResult("Pozisyon mevcut.");
 		}

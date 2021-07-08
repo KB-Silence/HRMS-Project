@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.JobExperienceService;
-import kilobyte.hrms.entities.concretes.JobExperience;
+import kilobyte.hrms.entities.dtos.JobExperienceDto;
 
 @RestController
 @RequestMapping("/api/jobexperiences/")
@@ -27,8 +27,8 @@ public class JobExperiencesController {
 	}
 
 	@PostMapping("addJobExperience")
-	public ResponseEntity<?> addJobExperience(@RequestBody JobExperience jobExperience) {
-		return ResponseEntity.ok(this.jobExperienceService.addJobExperience(jobExperience));
+	public ResponseEntity<?> addJobExperience(@RequestBody JobExperienceDto jobExperienceDto) {
+		return ResponseEntity.ok(this.jobExperienceService.addJobExperience(jobExperienceDto));
 	}
 
 	@GetMapping("getAllJobExperiences")

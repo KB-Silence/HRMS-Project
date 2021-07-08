@@ -28,9 +28,9 @@ public class PositionsController {
 		this.positionService = positionService;
 	}
 	
-	@PostMapping("/add")
-	public Result add(@RequestBody Position position) {
-		return this.positionService.add(position);
+	@PostMapping("/addPosition")
+	public Result addPosition(@RequestBody Position position) {
+		return this.positionService.addPosition(position);
 	}
 	
 	@GetMapping("/getall")

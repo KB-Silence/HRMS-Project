@@ -5,9 +5,10 @@ import java.util.List;
 import kilobyte.hrms.core.utilities.results.DataResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.entities.concretes.CoverLetter;
+import kilobyte.hrms.entities.dtos.CoverLetterDto;
 
 public interface CoverLetterService {
-	Result addCoverLetter(CoverLetter coverLetter);
+	Result addCoverLetter(CoverLetterDto coverLetterDto);
 	DataResult<List<CoverLetter>> getAll();
 	DataResult<List<CoverLetter>> getByUnemployedId(int unemployedId);
 }

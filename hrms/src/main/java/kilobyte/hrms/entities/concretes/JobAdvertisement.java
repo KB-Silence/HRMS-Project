@@ -54,14 +54,15 @@ public class JobAdvertisement {
 	@Column(name = "last_application")
 	private String lastApplication;
 
-	@JsonIgnore
 	@Column(name = "created_date", columnDefinition = "Date default CURRENT_DATE")
 	private LocalDate createdDate = LocalDate.now();
 
-	@NotBlank
-	@NotNull
 	@Column(name = "advert_status")
-	private Boolean advertStatus;
+	private Boolean advertStatus = true;
+	
+	@JsonIgnore
+	@Column(name = "advert_is_confirmed")
+	private Boolean advertIsConfirmed = false;
 
 	@NotBlank
 	@NotNull
@@ -92,7 +93,7 @@ public class JobAdvertisement {
 	@OneToOne(mappedBy="jobAdvertisement")
 	private ConfirmingJobAdvertisement confirmingJobAdvertisement;
 	
-	private Boolean advertIsConfirmed;
+	
 	
 
 }
