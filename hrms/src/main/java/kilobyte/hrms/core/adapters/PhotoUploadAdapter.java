@@ -17,12 +17,12 @@ import kilobyte.hrms.core.utilities.results.DataResult;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 
 @Service
-public class PhotoUploadManager implements PhotoUploadService {
+public class PhotoUploadAdapter implements PhotoUploadService {
 
 	private Cloudinary cloudinary;
 	private Map<String, String> valuesMap = new HashMap<>();
 
-	public PhotoUploadManager() {
+	public PhotoUploadAdapter() {
 		valuesMap.put("cloud_name", "your_cloud_name");
 		valuesMap.put("api_key", "your_api_key");
 		valuesMap.put("api_secret", "your_api_secret");

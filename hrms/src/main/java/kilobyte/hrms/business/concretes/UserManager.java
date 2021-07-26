@@ -21,11 +21,6 @@ public class UserManager implements UserService {
 		super();
 		this.userDao = userDao;
 	}
-	
-	@Override
-	public DataResult<User> checkEmail(String email) {
-		return new SuccessDataResult<User>(this.userDao.findByEmail(email));
-	}
 
 	@Override
 	public DataResult<List<User>> getAll() {

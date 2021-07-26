@@ -16,33 +16,55 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.PhotoDao;
+import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.entities.concretes.Photo;
-import kilobyte.hrms.entities.concretes.Unemployed;
 
 @Service
 public class PhotoManager implements PhotoService {
 
 	private PhotoDao photoDao;
 	private PhotoUploadService photoUploadService;
+	private UnemployedDao unemployedDao;
+	
+	private String defaultPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/512px-Breezeicons-actions-22-im-user.svg.png";
 
 	@Autowired
-	public PhotoManager(PhotoDao photoDao, PhotoUploadService photoUploadService) {
+	public PhotoManager(PhotoDao photoDao, PhotoUploadService photoUploadService, UnemployedDao unemployedDao) {
 		super();
 		this.photoUploadService = photoUploadService;
 		this.photoDao = photoDao;
+		this.unemployedDao = unemployedDao;
 	}
 
 	@Override
-	public Result addPhoto(int unemployedId, MultipartFile multipartFile) throws IOException {
-		var result = this.photoUploadService.upload(multipartFile);
-		Unemployed unemployed = new Unemployed();
-		Photo photo = new Photo();
-		unemployed.setId(unemployedId);
-		photo.setUnemployed(unemployed);
-		photo.setPhotoUrl(result.getData().get("url").toString());
-		photo.setUploadDate(LocalDate.now());
-		this.photoDao.save(photo);
-		return new SuccessResult("Fotoğraf yüklendi.");
+	public Result addPhoto(int unemployedId, MultipartFile file) throws IOException {
+		Photo forAdd = this.photoDao.getByUnemployedId(unemployedId);
+		if (forAdd.getPhotoUrl() == null) {
+			var result = this.photoUploadService.upload(file);
+			forAdd.setUnemployed(this.unemployedDao.getOne(unemployedId));
+			forAdd.setPhotoUrl(result.getData().get("url").toString());
+			forAdd.setUploadDate(LocalDate.now());
+			this.photoDao.save(forAdd);
+			return new SuccessResult("Fotoğraf yüklendi.");
+		} else {
+			return new ErrorResult("Fotoğraf yüklenemedi.");
+		}
+	}
+
+	@Override
+	public Result updatePhoto(int unemployedId, MultipartFile file) throws IOException {
+		Photo forUpdate = this.photoDao.getByUnemployedId(unemployedId);
+		if (forUpdate.getPhotoUrl() != null) {
+			this.photoUploadService.delete(forUpdate.getPhotoId());
+			var result = this.photoUploadService.upload(file);
+			forUpdate.setPhotoUrl(result.getData().get("url").toString());
+			forUpdate.setUploadDate(LocalDate.now());
+			this.photoDao.save(forUpdate);
+			return new SuccessResult("Fotoğraf başarıyla güncellendi.");
+		} else {
+			return new ErrorResult("Fotoğraf güncellenemedi.");
+		}
+		
 	}
 
 	@Override
@@ -55,8 +77,7 @@ public class PhotoManager implements PhotoService {
 		try {
 			Photo photo = this.photoDao.getOne(photoId);
 			this.photoUploadService.delete(photo.getPhotoId());
-			photo.setPhotoUrl(
-					"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/512px-Breezeicons-actions-22-im-user.svg.png");
+			photo.setPhotoUrl(defaultPhoto);
 			this.photoDao.save(photo);
 			return new SuccessResult("Fotoğraf başarıyla silindi.");
 		} catch (IOException exception) {
@@ -73,4 +94,5 @@ public class PhotoManager implements PhotoService {
 	public DataResult<Photo> getByUnemployedId(int unemployedId) {
 		return new SuccessDataResult<Photo>(this.photoDao.getByUnemployedId(unemployedId));
 	}
+
 }
