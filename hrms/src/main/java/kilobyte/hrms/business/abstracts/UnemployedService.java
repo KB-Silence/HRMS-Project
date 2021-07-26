@@ -8,6 +8,6 @@ import kilobyte.hrms.entities.concretes.Unemployed;
 
 public interface UnemployedService {
 	
-	Result add(Unemployed unemployed);
+	Result addUnemployed(Unemployed unemployed);
 	DataResult<List<Unemployed>> getAll();
 }

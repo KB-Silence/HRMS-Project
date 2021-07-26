@@ -24,11 +24,11 @@ public class VerificationManager implements VerificationService {
 
 	@Override
 	public Result addUser(int userId) {
-		Verification verifyCode = new Verification();
-		verifyCode.setVerified(true);
-		verifyCode.setVerificationCode(this.generateCode());
-		verifyCode.setUserId(userId);
-		this.verificationDao.save(verifyCode);
+		Verification verify = new Verification();
+		verify.setVerified(true);
+		verify.setVerificationCode(this.generateCode());
+		verify.setUserId(userId);
+		this.verificationDao.save(verify);
 		return new SuccessResult();
 	}
 

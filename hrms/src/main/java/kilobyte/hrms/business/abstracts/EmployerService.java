@@ -8,6 +8,7 @@ import kilobyte.hrms.entities.concretes.Employer;
 
 public interface EmployerService {
 	
-	Result add(Employer employer);
+	Result addEmployer(Employer employer);
+	Result checkEmailDomain(String email, String domain);
 	DataResult<List<Employer>> getAll();
 }

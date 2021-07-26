@@ -2,6 +2,7 @@ package kilobyte.hrms.business.concretes;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kilobyte.hrms.business.abstracts.JobExperienceService;
@@ -21,6 +22,7 @@ public class JobExperienceManager implements JobExperienceService{
 	private JobExperienceDao jobExperienceDao;
 	private UnemployedDao unemployedDao;
 	
+	@Autowired
 	public JobExperienceManager(JobExperienceDao jobExperienceDao, UnemployedDao unemployedDao) {
 		super();
 		this.jobExperienceDao = jobExperienceDao;

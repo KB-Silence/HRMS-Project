@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kilobyte.hrms.business.abstracts.UnemployedService;
-import kilobyte.hrms.business.abstracts.UserService;
+import kilobyte.hrms.core.abstracts.MernisService;
 import kilobyte.hrms.core.utilities.results.DataResult;
 import kilobyte.hrms.core.utilities.results.ErrorResult;
 import kilobyte.hrms.core.utilities.results.Result;
@@ -17,28 +17,27 @@ import kilobyte.hrms.entities.concretes.Unemployed;
 
 @Service
 public class UnemployedManager implements UnemployedService {
-	
+
 	private UnemployedDao unemployedDao;
-	private UserService userService;
-	
+	private MernisService mernisService;
+
 	@Autowired
-	public UnemployedManager(UnemployedDao unemployedDao, UserService userService) {
+	public UnemployedManager(UnemployedDao unemployedDao, MernisService mernisService) {
 		super();
 		this.unemployedDao = unemployedDao;
-		this.userService = userService;
+		this.mernisService = mernisService;
 	}
-	
-	private DataResult<Unemployed> nationalityIdIsExist(String nationalityId) {
-		return new SuccessDataResult<Unemployed>(this.unemployedDao.findByNationalityId(nationalityId));
-	}
-	
+
 	@Override
-	public Result add(Unemployed unemployed) {
-		if((this.userService.checkEmail(unemployed.getEmail()).getData() != null) && (this.nationalityIdIsExist(unemployed.getNationalityId()).getData() != null )) {
-			return new ErrorResult("E-Posta adresi ya da TC No zaten mevcut.");
+	public Result addUnemployed(Unemployed unemployed) {
+
+		if (this.unemployedDao.findByNationalityId(unemployed.getNationalityId()) == null) {
+			if (this.mernisService.checkIfRealPerson(unemployed)) {
+				this.unemployedDao.save(unemployed);
+				return new SuccessResult("Yeni iş arayan eklendi.");
+			}
 		}
-		this.unemployedDao.save(unemployed);
-		return new SuccessResult("Yeni iş arayan eklendi.");
+		return new ErrorResult("Kayıt olma başarısız. Bilgileri kontrol edin ve tekrar deneyin.");
 	}
 
 	@Override
