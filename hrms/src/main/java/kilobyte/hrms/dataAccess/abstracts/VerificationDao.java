@@ -6,5 +6,6 @@ import kilobyte.hrms.entities.concretes.Verification;
 
 public interface VerificationDao extends JpaRepository<Verification, Integer>{
 	
-	Verification findByVerificationCode(String verificationCode);
+	Verification getByVerificationCode(String verificationCode);
+	Verification getByUserId(int userId);
 }
