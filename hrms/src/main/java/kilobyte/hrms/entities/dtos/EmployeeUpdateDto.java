@@ -1,7 +1,5 @@
 package kilobyte.hrms.entities.dtos;
 
-import java.time.LocalDate;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,17 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UnemployedRegisterDto {
-	
-	@Email
+public class EmployeeUpdateDto {
+
 	@NotNull
 	@NotBlank
-	private String email;
+	private int employeeId;
 	
-	@NotNull
-	@NotBlank
-	@Length(min=6)
-	private String password;
+	private int positionId;
 	
 	@NotNull
 	@NotBlank
@@ -39,15 +33,12 @@ public class UnemployedRegisterDto {
 	
 	@NotNull
 	@NotBlank
-	@Length(min=11, max = 11)
-	private String nationalityId;
-	
-	@NotNull
-	@NotBlank
-	private LocalDate birthDate;
+	@Email
+	private String email;
 	
 	@NotNull
 	@NotBlank
 	@Length(min=10, max=10)
 	private String phoneNumber;
+	
 }

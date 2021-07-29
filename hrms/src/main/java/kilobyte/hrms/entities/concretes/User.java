@@ -8,8 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,23 +31,29 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
+	@JsonIgnore
 	private int id;
 	
 	@NotBlank
 	@NotNull
+	@Length(min=10, max = 10)
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
 	@NotBlank
 	@NotNull
+	@Email
 	@Column(name = "email")
 	private String email;
 	
 	@NotBlank
 	@NotNull
+	@Length(min=6)
 	@Column(name = "password")
+	@JsonIgnore
 	private String password;
 	
+	@JsonIgnore
 	@Column(name="mail_is_verify")
-	private Boolean mailIsVerify;
+	private Boolean mailIsVerify = false;
 }

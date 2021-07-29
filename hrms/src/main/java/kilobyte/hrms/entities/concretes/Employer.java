@@ -51,4 +51,8 @@ public class Employer extends User {
 	@OneToMany(mappedBy="employer")
 	@JsonIgnore
 	private List<JobAdvertisement> advertisements;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "employer")
+	private List<ConfirmingUpdate> confirmingUpdates;
 }
