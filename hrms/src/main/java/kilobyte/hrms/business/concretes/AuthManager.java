@@ -7,6 +7,7 @@ import kilobyte.hrms.business.abstracts.AuthService;
 import kilobyte.hrms.business.abstracts.EmployerService;
 import kilobyte.hrms.business.abstracts.UnemployedService;
 import kilobyte.hrms.business.abstracts.VerificationService;
+import kilobyte.hrms.core.abstracts.EmailService;
 import kilobyte.hrms.core.utilities.results.DataResult;
 import kilobyte.hrms.core.utilities.results.ErrorDataResult;
 import kilobyte.hrms.core.utilities.results.ErrorResult;
@@ -17,11 +18,11 @@ import kilobyte.hrms.dataAccess.abstracts.EmployeeDao;
 import kilobyte.hrms.dataAccess.abstracts.EmployerDao;
 import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.dataAccess.abstracts.UserDao;
-import kilobyte.hrms.entities.concretes.Employer;
-import kilobyte.hrms.entities.concretes.Unemployed;
 import kilobyte.hrms.entities.concretes.User;
+import kilobyte.hrms.entities.dtos.EmployerRegisterDto;
 import kilobyte.hrms.entities.dtos.LoginDto;
 import kilobyte.hrms.entities.dtos.LoginReturnDto;
+import kilobyte.hrms.entities.dtos.UnemployedRegisterDto;
 
 @Service
 public class AuthManager implements AuthService {
@@ -29,6 +30,7 @@ public class AuthManager implements AuthService {
 	private UnemployedService unemployedService;
 	private EmployerService employerService;
 	private VerificationService verificationService;
+	private EmailService emailService;
 
 	private UserDao userDao;
 	private UnemployedDao unemployedDao;
@@ -38,11 +40,13 @@ public class AuthManager implements AuthService {
 	@Autowired
 	public AuthManager(UnemployedService unemployedService, EmployerService employerService,
 			VerificationService verificationService, UserDao userDao, UnemployedDao unemployedDao,
-			EmployerDao employerDao, EmployeeDao employeeDao) {
+			EmployerDao employerDao, EmployeeDao employeeDao, EmailService emailService) {
 		super();
 		this.unemployedService = unemployedService;
 		this.employerService = employerService;
 		this.verificationService = verificationService;
+		this.emailService = emailService;
+
 		this.userDao = userDao;
 		this.unemployedDao = unemployedDao;
 		this.employerDao = employerDao;
@@ -58,35 +62,45 @@ public class AuthManager implements AuthService {
 	}
 
 	@Override
-	public DataResult<User> checkEmail(String email) {
-		if(this.userDao.findByEmail(email) != null) {
-			return new ErrorDataResult<User>("E-Posta adresi mevcut.");
+	public Result checkEmail(String email) {
+		if (this.userDao.findByEmail(email) == null) {
+			return new SuccessResult();
 		}
-		return new SuccessDataResult<User>(this.userDao.findByEmail(email));
+		return new ErrorResult("E-posta mevcut.");
 	}
 
 	@Override
-	public DataResult<Employer> registerEmployer(Employer employer, String confirmPassword) {
-		if (this.checkEmail(employer.getEmail()).isSuccess()) {
-			if (this.confirmPassword(employer.getPassword(), confirmPassword).isSuccess()) {
-				this.employerService.addEmployer(employer);
-				this.verificationService.addUser(employer.getId());
-				return new SuccessDataResult<Employer>(employer, "Kayıt işlemi başarılı.");
-			}
+	public DataResult<EmployerRegisterDto> registerEmployer(EmployerRegisterDto employerDto, String confirmPassword) {
+		
+		if (!this.checkEmail(employerDto.getEmail()).isSuccess()) {
+			return new ErrorDataResult<EmployerRegisterDto>("E-posta adresi daha önce alınmış.");
 		}
-		return new ErrorDataResult<Employer>("Kayıt olma başarısız.");
+		if (this.confirmPassword(employerDto.getPassword(), confirmPassword).isSuccess()) {
+			this.employerService.addEmployer(employerDto);
+			User user = this.employerDao.getByEmail(employerDto.getEmail());
+			this.emailService.sendVerifyEmail(user, this.verificationService.generateCode(user));
+			return new SuccessDataResult<EmployerRegisterDto>(employerDto,
+					"Kayıt işlemi başarılı. Mail adresine doğrulama bağlantısı gönderildi.");
+		}
+		return new ErrorDataResult<EmployerRegisterDto>(
+				"Şifreler uyuşmuyor. Kontrol edip tekrar deneyiniz.");
 	}
 
 	@Override
-	public DataResult<Unemployed> registerUnemployed(Unemployed unemployed, String confirmPassword) {
-		if (this.checkEmail(unemployed.getEmail()).isSuccess()) {
-			if (this.confirmPassword(unemployed.getPassword(), confirmPassword).isSuccess()) {
-				this.unemployedService.addUnemployed(unemployed);
-				this.verificationService.addUser(unemployed.getId());
-				return new SuccessDataResult<Unemployed>(unemployed, "Kayıt işlemi başarılı.");
-			}
+	public DataResult<UnemployedRegisterDto> registerUnemployed(UnemployedRegisterDto unemployedDto,
+			String confirmPassword) {
+		if (!this.checkEmail(unemployedDto.getEmail()).isSuccess()) {
+			return new ErrorDataResult<UnemployedRegisterDto>("E-posta adresi daha önce alınmış.");
 		}
-		return new ErrorDataResult<Unemployed>("Kayıt olma başarısız.");
+			if (this.confirmPassword(unemployedDto.getPassword(), confirmPassword).isSuccess()) {
+				this.unemployedService.addUnemployed(unemployedDto);
+				User user = this.unemployedDao.getByEmail(unemployedDto.getEmail());
+				this.emailService.sendVerifyEmail(user, this.verificationService.generateCode(user));
+				return new SuccessDataResult<UnemployedRegisterDto>(unemployedDto,
+						"Kayıt işlemi başarılı. Mail adresine doğrulama bağlantısı gönderildi.");
+			}
+		return new ErrorDataResult<UnemployedRegisterDto>(
+				"Kayıt olma başarısız. Bilgileri kontrol edip tekrar deneyin lütfen.");
 	}
 
 	@Override

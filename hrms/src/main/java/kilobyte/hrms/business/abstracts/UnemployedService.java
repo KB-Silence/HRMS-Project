@@ -5,9 +5,13 @@ import java.util.List;
 import kilobyte.hrms.core.utilities.results.DataResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.entities.concretes.Unemployed;
+import kilobyte.hrms.entities.dtos.UnemployedRegisterDto;
 
 public interface UnemployedService {
 	
-	Result addUnemployed(Unemployed unemployed);
+	Result addUnemployed(UnemployedRegisterDto unemployedDto);
 	DataResult<List<Unemployed>> getAll();
+	DataResult<Unemployed> getByNationalityId(String nationalityId);
+	DataResult<Unemployed> getByEmail(String email);
+	DataResult<List<Unemployed>> getByMailIsVerifyTrue();
 }
