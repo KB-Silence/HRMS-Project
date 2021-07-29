@@ -12,27 +12,50 @@ import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.EmployerDao;
+import kilobyte.hrms.dataAccess.abstracts.EmployerUpdateDao;
 import kilobyte.hrms.entities.concretes.Employer;
+import kilobyte.hrms.entities.concretes.EmployerUpdate;
+import kilobyte.hrms.entities.dtos.EmployerRegisterDto;
 
 @Service
 public class EmployerManager implements EmployerService {
 
 	private EmployerDao employerDao;
+	private EmployerUpdateDao updateDao;
 
 	@Autowired
-	public EmployerManager(EmployerDao employerDao) {
+	public EmployerManager(EmployerDao employerDao, EmployerUpdateDao updateDao) {
 		super();
 		this.employerDao = employerDao;
+		this.updateDao = updateDao;
 	}
 
 	@Override
-	public Result addEmployer(Employer employer) {
-		if (this.checkEmailDomain(employer.getEmail(), employer.getWebSite()).isSuccess()) {
+	public Result addEmployer(EmployerRegisterDto employerDto) {
+		if(this.checkEmailDomain(employerDto.getEmail(), employerDto.getWebSite()).isSuccess()) {
+			Employer employer = new Employer();
+			employer.setCompanyName(employerDto.getCompanyName());
+			employer.setWebSite(employerDto.getWebSite());
+			employer.setEmail(employerDto.getEmail());
+			employer.setPassword(employerDto.getPassword());
+			employer.setPhoneNumber(employerDto.getPhoneNumber());
 			this.employerDao.save(employer);
-			return new SuccessResult("Yeni işveren eklendi.");
-		} else {
-			return new ErrorResult("Domain Kontrolü Başarısız.");
+			return new SuccessResult("Kayıt işlemi başarılı.");
 		}
+		return new ErrorResult("Domain doğrulama başarısız lütfen tekrar deneyin.");
+	}
+	
+	@Override
+	public Result updateEmployer(EmployerUpdate employerUpdate) {
+		employerUpdate.setEmployeeId(null);
+		if(!this.employerDao.existsById(employerUpdate.getEmployerId())) {
+			return new ErrorResult("İşveren bulunamadı.");
+		}
+		Employer employer = this.employerDao.getOne(employerUpdate.getEmployerId());
+		this.updateDao.save(employerUpdate);
+		employer.setWaitingForUpdate(true);
+		this.employerDao.save(employer);
+		return new SuccessResult("Güncelleme talebiniz alındı. İlgili personel tarafından kontrol edildikten sonra onaylanacaktır.");
 	}
 
 	@Override
@@ -48,5 +71,10 @@ public class EmployerManager implements EmployerService {
 	@Override
 	public DataResult<List<Employer>> getAll() {
 		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(), "İş verenler listelendi.");
+	}
+
+	@Override
+	public DataResult<List<Employer>> getByMailIsVerifyTrue() {
+		return new SuccessDataResult<List<Employer>>(this.employerDao.getByMailIsVerifyTrue());
 	}
 }

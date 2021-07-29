@@ -14,6 +14,7 @@ import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
 import kilobyte.hrms.dataAccess.abstracts.UnemployedDao;
 import kilobyte.hrms.entities.concretes.Unemployed;
+import kilobyte.hrms.entities.dtos.UnemployedRegisterDto;
 
 @Service
 public class UnemployedManager implements UnemployedService {
@@ -29,20 +30,42 @@ public class UnemployedManager implements UnemployedService {
 	}
 
 	@Override
-	public Result addUnemployed(Unemployed unemployed) {
-
-		if (this.unemployedDao.findByNationalityId(unemployed.getNationalityId()) == null) {
-			if (this.mernisService.checkIfRealPerson(unemployed)) {
+	public Result addUnemployed(UnemployedRegisterDto unemployedDto) {
+		if(this.unemployedDao.getByNationalityId(unemployedDto.getNationalityId()) == null) {
+			if(this.mernisService.checkIfRealPerson(unemployedDto)) {
+				Unemployed unemployed = new Unemployed();
+				unemployed.setEmail(unemployedDto.getEmail());
+				unemployed.setPassword(unemployedDto.getPassword());
+				unemployed.setFirstName(unemployedDto.getFirstName());
+				unemployed.setLastName(unemployedDto.getLastName());
+				unemployed.setNationalityId(unemployedDto.getNationalityId());
+				unemployed.setBirthDate(unemployedDto.getBirthDate());
+				unemployed.setPhoneNumber(unemployedDto.getPhoneNumber());
 				this.unemployedDao.save(unemployed);
-				return new SuccessResult("Yeni iş arayan eklendi.");
+				return new SuccessResult("Kayıt işlemi başarılı.");
 			}
 		}
-		return new ErrorResult("Kayıt olma başarısız. Bilgileri kontrol edin ve tekrar deneyin.");
+		return new ErrorResult("Kayıt işlemi sırasında hata oluştu. Bilgileri kontrol edip tekrar deneyin.");
 	}
 
 	@Override
 	public DataResult<List<Unemployed>> getAll() {
 		return new SuccessDataResult<List<Unemployed>>(this.unemployedDao.findAll(), "İş arayanlar listelendi.");
+	}
+
+	@Override
+	public DataResult<Unemployed> getByNationalityId(String nationalityId) {
+		return new SuccessDataResult<Unemployed>(this.unemployedDao.getByNationalityId(nationalityId), "TC Numarasına göre data getirildi. ");
+	}
+
+	@Override
+	public DataResult<Unemployed> getByEmail(String email) {
+		return new SuccessDataResult<Unemployed>(this.unemployedDao.getByEmail(email),"Email adresine göre data listelendi.");
+	}
+
+	@Override
+	public DataResult<List<Unemployed>> getByMailIsVerifyTrue() {
+		return new SuccessDataResult<List<Unemployed>>(this.unemployedDao.getByMailIsVerifyTrue());
 	}
 
 }

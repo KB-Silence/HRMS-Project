@@ -41,6 +41,7 @@ public class Unemployed extends User{
 	
 	@NotBlank
 	@NotNull
+	@JsonIgnore
 	@Column(name = "nationality_id")
 	private String nationalityId;
 	

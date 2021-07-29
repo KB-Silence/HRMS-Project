@@ -9,6 +9,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,8 +28,9 @@ public class Verification {
 	@Column(name = "verification_id")
 	private int verificationId;
 	
+	@JsonIgnore
 	@Column(name = "is_verified")
-	private boolean isVerified;
+	private boolean isVerified = false;
 	
 	@Column(name = "verification_code")
 	private String verificationCode;

@@ -8,5 +8,6 @@ import kilobyte.hrms.entities.concretes.User;
 
 public interface UserDao extends JpaRepository<User, Integer>{
 	User findByEmail(String email);
+	User getById(int userId);
 	List<User> findByMailIsVerifyTrue();
 }

@@ -8,6 +8,9 @@ import kilobyte.hrms.entities.concretes.Employer;
 
 public interface EmployerDao extends JpaRepository<Employer, Integer>{
 	
+	Employer getByEmail(String email);
+	List<Employer> getByMailIsVerifyTrue();
 	List<Employer> getByEmployerIsConfirmed(boolean status);
+	List<Employer> getByWaitingForUpdate(boolean status);
 
 }
