@@ -1,19 +1,20 @@
 package kilobyte.hrms.api.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.EmployerService;
-import kilobyte.hrms.core.utilities.results.DataResult;
-import kilobyte.hrms.entities.concretes.Employer;
+import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.entities.concretes.EmployerUpdate;
 
 @RestController
-@RequestMapping("/api/employers")
+@RequestMapping("/api/employers/")
 @CrossOrigin
 public class EmployersController {
 
@@ -25,8 +26,22 @@ public class EmployersController {
 		this.employerService = employerService;
 	}
 	
-	@GetMapping("/getall")
-	public DataResult<List<Employer>> getAll() {
-		return this.employerService.getAll();
+	@GetMapping("getAll")
+	public ResponseEntity<?> getAll() {
+		return ResponseEntity.ok(this.employerService.getAll());
+	}
+	
+	@GetMapping("getByMailIsVerifyTrue")
+	public ResponseEntity<?> getByMailIsVerifyTrue() {
+		return ResponseEntity.ok(this.employerService.getByMailIsVerifyTrue());
+	}
+	
+	@PutMapping("updateEmployer")
+	public ResponseEntity<?> updateEmployer(@RequestBody EmployerUpdate employerUpdate) {
+		Result result = this.employerService.updateEmployer(employerUpdate);
+		if(result.isSuccess()) {
+			return ResponseEntity.ok(result);
+		}
+		return ResponseEntity.badRequest().body(result);
 	}
 }

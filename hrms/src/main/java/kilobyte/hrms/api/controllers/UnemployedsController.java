@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import kilobyte.hrms.business.abstracts.CvDtoService;
 import kilobyte.hrms.business.abstracts.UnemployedService;
 import kilobyte.hrms.core.utilities.results.DataResult;
+import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.entities.concretes.Unemployed;
 
 @RestController
-@RequestMapping("/api/unemployeds")
+@RequestMapping("/api/unemployeds/")
 @CrossOrigin
 public class UnemployedsController {
 
@@ -30,14 +31,23 @@ public class UnemployedsController {
 		this.cvDtoService = cvDtoService;
 	}
 	
-	@GetMapping("/getall")
+	@GetMapping("getall")
 	public DataResult<List<Unemployed>> getAll() {
 		return this.unemployedService.getAll();
 	}
 	
+	@GetMapping("getMailIsVerifyTrue")
+	public ResponseEntity<?> getByMailIsVerifyTrue() {
+		return ResponseEntity.ok(this.unemployedService.getByMailIsVerifyTrue());
+	}
+	
 	@GetMapping("createCv")
 	public ResponseEntity<?> createCv(@RequestParam int unemployedId) {
-		return ResponseEntity.ok(this.cvDtoService.createCv(unemployedId));
+		Result result = this.cvDtoService.createCv(unemployedId);
+		if(result.isSuccess()) {
+			return ResponseEntity.ok(result);
+		}
+		return ResponseEntity.badRequest().body(result);
 	}
 	
 }
