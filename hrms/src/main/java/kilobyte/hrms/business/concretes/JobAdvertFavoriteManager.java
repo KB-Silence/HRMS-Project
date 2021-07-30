@@ -39,7 +39,7 @@ public class JobAdvertFavoriteManager implements JobAdvertFavoriteService {
 			return new ErrorResult("Kullanıcı bulunamadı.");
 		}else if (!this.advertisementDao.existsById(advertId)) {
 			return new ErrorResult("İlan bulunamadı.");
-		}else if(!this.favoriteDao.existsByUnemployedIdAndJobAdvertisement_AdvertId(unemployedId, advertId)) {
+		}else if(this.favoriteDao.existsByUnemployed_UserIdAndJobAdvertisement_AdvertId(unemployedId, advertId)) {
 			return new ErrorResult("İlan zaten favorilere eklenmiş.");
 		}
 		
@@ -64,7 +64,7 @@ public class JobAdvertFavoriteManager implements JobAdvertFavoriteService {
 		if(!this.unemployedDao.existsById(unemployedId)) {
 			return new ErrorDataResult<List<JobAdvertFavorite>>("Girdiğiniz kullanıcı bulunamadı.");
 		}
-		return new SuccessDataResult<List<JobAdvertFavorite>>(this.favoriteDao.findByUnemployedId(unemployedId), "Kullanıcının favori ilanları listelendi.");
+		return new SuccessDataResult<List<JobAdvertFavorite>>(this.favoriteDao.getByUnemployed_UserId(unemployedId), "Kullanıcının favori ilanları listelendi.");
 	}
 
 }

@@ -22,7 +22,7 @@ public class EmployerRegisterDto {
 	
 	@NotNull
 	@NotBlank
-	@Length(min=6)
+	@Length(min=6, max=20)
 	private String password;
 	
 	@NotNull

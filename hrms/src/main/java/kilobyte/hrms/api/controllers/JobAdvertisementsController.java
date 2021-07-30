@@ -40,7 +40,7 @@ public class JobAdvertisementsController {
 	}
 	
 	@PostMapping("getByApprovedAndFilter")
-	public Result getByApprovedAndFilter(@RequestParam int pageNo, int pageSize, @RequestBody JobAdvertFilterDto advertFilterDto) {
+	public Result getByApprovedAndFilter(@RequestBody JobAdvertFilterDto advertFilterDto, @RequestParam int pageNo, int pageSize) {
 		return advertisementService.getByAdvertIsConfirmedAndPageNumberAndFilter(pageNo, pageSize, advertFilterDto);
 	}
 	
@@ -54,9 +54,9 @@ public class JobAdvertisementsController {
 		return this.advertisementService.getAll();
 	}
 	
-	@GetMapping("getByAdvertStatus")
-	public DataResult<List<JobAdvertisement>> getByAdvertStatus() {
-		return this.advertisementService.getByAdvertStatus();
+	@GetMapping("getByAdvertStatusTrue")
+	public DataResult<List<JobAdvertisement>> getByAdvertStatusTrue() {
+		return this.advertisementService.getByAdvertStatusTrue();
 	}
 	
 	@GetMapping("getByAdvertStatusAndSorted")
@@ -69,8 +69,8 @@ public class JobAdvertisementsController {
 		return this.advertisementService.getByAdvertStatusTrueAndEmployerId(employerId);
 	}
 	
-	@GetMapping("getAllApproved")
-	public DataResult<List<JobAdvertisement>> getAllApproved(@RequestParam boolean status) {
-		return this.advertisementService.getAllApproved(status);
+	@GetMapping("getByAdvertIsConfirmed")
+	public DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(@RequestParam boolean status) {
+		return this.advertisementService.getByAdvertIsConfirmed(status);
 	}
 }

@@ -25,7 +25,7 @@ public class PhotoManager implements PhotoService {
 	private PhotoDao photoDao;
 	private PhotoUploadService photoUploadService;
 	private UnemployedDao unemployedDao;
-	
+
 	private String defaultPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/512px-Breezeicons-actions-22-im-user.svg.png";
 
 	@Autowired
@@ -38,22 +38,18 @@ public class PhotoManager implements PhotoService {
 
 	@Override
 	public Result addPhoto(int unemployedId, MultipartFile file) throws IOException {
-		Photo forAdd = this.photoDao.getByUnemployedId(unemployedId);
-		if (forAdd.getPhotoUrl() == null) {
-			var result = this.photoUploadService.upload(file);
-			forAdd.setUnemployed(this.unemployedDao.getOne(unemployedId));
-			forAdd.setPhotoUrl(result.getData().get("url").toString());
-			forAdd.setUploadDate(LocalDate.now());
-			this.photoDao.save(forAdd);
-			return new SuccessResult("Fotoğraf yüklendi.");
-		} else {
-			return new ErrorResult("Fotoğraf yüklenemedi.");
-		}
+		Photo forAdd = new Photo();
+		var result = this.photoUploadService.upload(file);
+		forAdd.setUnemployed(this.unemployedDao.getOne(unemployedId));
+		forAdd.setPhotoUrl(result.getData().get("url").toString());
+		forAdd.setUploadDate(LocalDate.now());
+		this.photoDao.save(forAdd);
+		return new SuccessResult("Fotoğraf yüklendi.");
 	}
 
 	@Override
 	public Result updatePhoto(int unemployedId, MultipartFile file) throws IOException {
-		Photo forUpdate = this.photoDao.getByUnemployedId(unemployedId);
+		Photo forUpdate = this.photoDao.getByUnemployed_UserId(unemployedId);
 		if (forUpdate.getPhotoUrl() != null) {
 			this.photoUploadService.delete(forUpdate.getPhotoId());
 			var result = this.photoUploadService.upload(file);
@@ -64,7 +60,7 @@ public class PhotoManager implements PhotoService {
 		} else {
 			return new ErrorResult("Fotoğraf güncellenemedi.");
 		}
-		
+
 	}
 
 	@Override
@@ -92,7 +88,7 @@ public class PhotoManager implements PhotoService {
 
 	@Override
 	public DataResult<Photo> getByUnemployedId(int unemployedId) {
-		return new SuccessDataResult<Photo>(this.photoDao.getByUnemployedId(unemployedId));
+		return new SuccessDataResult<Photo>(this.photoDao.getByUnemployed_UserId(unemployedId));
 	}
 
 }

@@ -8,5 +8,5 @@ import kilobyte.hrms.entities.concretes.Technology;
 
 public interface TechnologyDao extends JpaRepository<Technology, Integer>{
 
-	List<Technology> getByUnemployedId(int unemployedId);
+	List<Technology> getByUnemployed_UserId(int unemployedId);
 }

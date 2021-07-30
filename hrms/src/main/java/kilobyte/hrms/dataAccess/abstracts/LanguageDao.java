@@ -8,5 +8,5 @@ import kilobyte.hrms.entities.concretes.Language;
 
 public interface LanguageDao extends JpaRepository<Language, Integer>{
 
-	List<Language> getByUnemployedId(int unemployedId);
+	List<Language> getByUnemployed_UserId(int unemployedId);
 }

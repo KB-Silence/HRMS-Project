@@ -47,7 +47,7 @@ public class LanguageManager implements LanguageService {
 
 	@Override
 	public DataResult<List<Language>> getByUnemployedId(int unemployedId) {
-		return new SuccessDataResult<List<Language>>(this.languageDao.getByUnemployedId(unemployedId),"İş arayanın dil bilgileri listelendi.");
+		return new SuccessDataResult<List<Language>>(this.languageDao.getByUnemployed_UserId(unemployedId),"İş arayanın dil bilgileri listelendi.");
 	}
 
 	@Override

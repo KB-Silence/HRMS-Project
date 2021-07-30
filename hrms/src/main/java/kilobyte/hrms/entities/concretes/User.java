@@ -32,7 +32,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	@JsonIgnore
-	private int id;
+	private int userId;
 	
 	@NotBlank
 	@NotNull
@@ -48,7 +48,7 @@ public class User {
 	
 	@NotBlank
 	@NotNull
-	@Length(min=6)
+	@Length(min=6, max=20)
 	@Column(name = "password")
 	@JsonIgnore
 	private String password;

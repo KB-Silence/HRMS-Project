@@ -24,7 +24,7 @@ public class UnemployedRegisterDto {
 	
 	@NotNull
 	@NotBlank
-	@Length(min=6)
+	@Length(min=6, max=20)
 	private String password;
 	
 	@NotNull
@@ -43,7 +43,6 @@ public class UnemployedRegisterDto {
 	private String nationalityId;
 	
 	@NotNull
-	@NotBlank
 	private LocalDate birthDate;
 	
 	@NotNull

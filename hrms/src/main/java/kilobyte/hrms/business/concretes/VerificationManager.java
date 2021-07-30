@@ -30,8 +30,8 @@ public class VerificationManager implements VerificationService {
 	@Override
 	public Result verifyUser(String code) {
 		if(this.verificationDao.getByVerificationCode(code) != null ) {
-			User user = this.userDao.getById(verificationDao.getByVerificationCode(code).getUserId());
-			Verification verify = this.verificationDao.getByUserId(user.getId());
+			User user = this.userDao.getByUserId(verificationDao.getByVerificationCode(code).getUserId());
+			Verification verify = this.verificationDao.getByUserId(user.getUserId());
 			if (!user.getMailIsVerify()) {
 				user.setMailIsVerify(true);
 				verify.setVerified(true);
@@ -48,7 +48,7 @@ public class VerificationManager implements VerificationService {
 		UUID code = UUID.randomUUID();
 		Verification verify = new Verification();
 		verify.setVerificationCode(code.toString());
-		verify.setUserId(user.getId());
+		verify.setUserId(user.getUserId());
 		this.verificationDao.save(verify);
 		return code.toString();
 	}
