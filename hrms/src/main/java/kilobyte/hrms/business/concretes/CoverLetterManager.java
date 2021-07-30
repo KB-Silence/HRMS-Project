@@ -45,7 +45,7 @@ public class CoverLetterManager implements CoverLetterService{
 
 	@Override
 	public DataResult<List<CoverLetter>> getByUnemployedId(int unemployedId) {
-		return new SuccessDataResult<List<CoverLetter>>(this.coverLetterDao.getByUnemployedId(unemployedId),"İş arayanın ön yazısı listelendi.");
+		return new SuccessDataResult<List<CoverLetter>>(this.coverLetterDao.getByUnemployed_UserId(unemployedId),"İş arayanın ön yazısı listelendi.");
 	}
 
 }

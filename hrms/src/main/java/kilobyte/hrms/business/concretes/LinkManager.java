@@ -46,7 +46,7 @@ public class LinkManager implements LinkService{
 
 	@Override
 	public DataResult<Link> getByUnemployedId(int unemployedId) {
-		return new SuccessDataResult<Link>(this.linkDao.getByUnemployedId(unemployedId));
+		return new SuccessDataResult<Link>(this.linkDao.getByUnemployed_UserId(unemployedId));
 	}
 
 }

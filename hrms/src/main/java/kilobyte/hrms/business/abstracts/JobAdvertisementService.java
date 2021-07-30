@@ -14,9 +14,9 @@ public interface JobAdvertisementService {
 	Result changeAdvertisementStatus(int advertId, boolean status);
 	
 	DataResult<List<JobAdvertisement>> getAll();
-	DataResult<List<JobAdvertisement>> getAllApproved(boolean status);
-	DataResult<List<JobAdvertisement>> getByAdvertStatus();
+	DataResult<List<JobAdvertisement>> getByAdvertStatusTrue();
 	DataResult<List<JobAdvertisement>> getByAdvertStatusAndSorted();
+	DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(boolean status);
 	DataResult<List<JobAdvertisement>> getByAdvertStatusTrueAndEmployerId(int employerId);
 	DataResult<List<JobAdvertisement>> getByAdvertIsConfirmedAndPageNumberAndFilter(int pageNo, int pageSize, JobAdvertFilterDto filterDto);
 }

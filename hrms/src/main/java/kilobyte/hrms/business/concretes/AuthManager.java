@@ -71,19 +71,21 @@ public class AuthManager implements AuthService {
 
 	@Override
 	public DataResult<EmployerRegisterDto> registerEmployer(EmployerRegisterDto employerDto, String confirmPassword) {
-		
+
 		if (!this.checkEmail(employerDto.getEmail()).isSuccess()) {
 			return new ErrorDataResult<EmployerRegisterDto>("E-posta adresi daha önce alınmış.");
 		}
 		if (this.confirmPassword(employerDto.getPassword(), confirmPassword).isSuccess()) {
-			this.employerService.addEmployer(employerDto);
-			User user = this.employerDao.getByEmail(employerDto.getEmail());
-			this.emailService.sendVerifyEmail(user, this.verificationService.generateCode(user));
-			return new SuccessDataResult<EmployerRegisterDto>(employerDto,
-					"Kayıt işlemi başarılı. Mail adresine doğrulama bağlantısı gönderildi.");
+			Result result = this.employerService.addEmployer(employerDto);
+			if(result.isSuccess()) {
+				User user = this.employerDao.getByEmail(employerDto.getEmail());
+				this.emailService.sendVerifyEmail(user, this.verificationService.generateCode(user));
+				return new SuccessDataResult<EmployerRegisterDto>(employerDto,
+						"Kayıt işlemi başarılı. Mail adresine doğrulama bağlantısı gönderildi.");
+			}
+			return new ErrorDataResult<EmployerRegisterDto>(result.getMessage());
 		}
-		return new ErrorDataResult<EmployerRegisterDto>(
-				"Şifreler uyuşmuyor. Kontrol edip tekrar deneyiniz.");
+		return new ErrorDataResult<EmployerRegisterDto>("Şifreler uyuşmuyor. Kontrol edip tekrar deneyiniz.");
 	}
 
 	@Override
@@ -92,13 +94,16 @@ public class AuthManager implements AuthService {
 		if (!this.checkEmail(unemployedDto.getEmail()).isSuccess()) {
 			return new ErrorDataResult<UnemployedRegisterDto>("E-posta adresi daha önce alınmış.");
 		}
-			if (this.confirmPassword(unemployedDto.getPassword(), confirmPassword).isSuccess()) {
-				this.unemployedService.addUnemployed(unemployedDto);
+		if (this.confirmPassword(unemployedDto.getPassword(), confirmPassword).isSuccess()) {
+			Result result = this.unemployedService.addUnemployed(unemployedDto);
+			if (result.isSuccess()) {
 				User user = this.unemployedDao.getByEmail(unemployedDto.getEmail());
 				this.emailService.sendVerifyEmail(user, this.verificationService.generateCode(user));
 				return new SuccessDataResult<UnemployedRegisterDto>(unemployedDto,
 						"Kayıt işlemi başarılı. Mail adresine doğrulama bağlantısı gönderildi.");
 			}
+			return new ErrorDataResult<UnemployedRegisterDto>(result.getMessage());
+		}
 		return new ErrorDataResult<UnemployedRegisterDto>(
 				"Kayıt olma başarısız. Bilgileri kontrol edip tekrar deneyin lütfen.");
 	}
@@ -115,20 +120,20 @@ public class AuthManager implements AuthService {
 		}
 
 		LoginReturnDto loginReturnDto = new LoginReturnDto();
-		loginReturnDto.setId(user.getId());
+		loginReturnDto.setId(user.getUserId());
 		loginReturnDto.setEmail(user.getEmail());
 
-		if (this.unemployedDao.existsById(user.getId())) {
+		if (this.unemployedDao.existsById(user.getUserId())) {
 			loginReturnDto.setUserType(1);
-			loginReturnDto.setName(this.unemployedDao.getOne(user.getId()).getFirstName() + " "
-					+ this.unemployedDao.getOne(user.getId()).getLastName());
-		} else if (this.employerDao.existsById(user.getId())) {
+			loginReturnDto.setName(this.unemployedDao.getOne(user.getUserId()).getFirstName() + " "
+					+ this.unemployedDao.getOne(user.getUserId()).getLastName());
+		} else if (this.employerDao.existsById(user.getUserId())) {
 			loginReturnDto.setUserType(2);
-			loginReturnDto.setName(this.employerDao.getOne(user.getId()).getCompanyName());
-		} else if (this.employeeDao.existsById(user.getId())) {
+			loginReturnDto.setName(this.employerDao.getOne(user.getUserId()).getCompanyName());
+		} else if (this.employeeDao.existsById(user.getUserId())) {
 			loginReturnDto.setUserType(3);
-			loginReturnDto.setName(this.employeeDao.getOne(user.getId()).getFirstName() + " "
-					+ this.employeeDao.getOne(user.getId()).getLastName());
+			loginReturnDto.setName(this.employeeDao.getOne(user.getUserId()).getFirstName() + " "
+					+ this.employeeDao.getOne(user.getUserId()).getLastName());
 		} else {
 			return new ErrorDataResult<LoginReturnDto>("Giriş başarısız. Bilgileri kontrol edip tekrar deneyiniz.");
 		}

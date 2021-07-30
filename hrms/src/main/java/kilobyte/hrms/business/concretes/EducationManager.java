@@ -48,7 +48,7 @@ public class EducationManager implements EducationService{
 
 	@Override
 	public DataResult<List<Education>> getByUnemployedIdOrderByGraduatedDateDesc(int unemployedId) {
-		return new SuccessDataResult<List<Education>>(this.educationDao.getByUnemployedIdOrderByGraduatedDateDesc(unemployedId),"Devam ediyor.");
+		return new SuccessDataResult<List<Education>>(this.educationDao.getByUnemployed_UserIdOrderByGraduatedDateDesc(unemployedId),"Devam ediyor.");
 	}
 
 	@Override

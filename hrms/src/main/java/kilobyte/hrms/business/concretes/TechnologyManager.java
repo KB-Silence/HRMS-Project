@@ -45,7 +45,7 @@ public class TechnologyManager implements TechnologyService{
 
 	@Override
 	public DataResult<List<Technology>> getByUnemployedId(int unemployedId) {
-		return new SuccessDataResult<List<Technology>>(this.technologyDao.getByUnemployedId(unemployedId),"İş arayanın teknoloji bilgileri listelendi.");
+		return new SuccessDataResult<List<Technology>>(this.technologyDao.getByUnemployed_UserId(unemployedId),"İş arayanın teknoloji bilgileri listelendi.");
 	}
 
 	@Override

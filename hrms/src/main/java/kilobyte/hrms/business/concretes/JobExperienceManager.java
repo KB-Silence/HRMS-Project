@@ -59,7 +59,7 @@ public class JobExperienceManager implements JobExperienceService{
 
 	@Override
 	public DataResult<List<JobExperience>> getByUnemployedIdOrderByLeaveDateDesc(int unemployedId) {
-		return new SuccessDataResult<List<JobExperience>>(this.jobExperienceDao.getByUnemployedIdOrderByLeaveDateDesc(unemployedId),"Devam ediyor.");
+		return new SuccessDataResult<List<JobExperience>>(this.jobExperienceDao.getByUnemployed_UserIdOrderByLeaveDateDesc(unemployedId),"Devam ediyor.");
 	}
 
 
