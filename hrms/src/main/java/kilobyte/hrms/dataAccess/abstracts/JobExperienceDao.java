@@ -8,5 +8,5 @@ import kilobyte.hrms.entities.concretes.JobExperience;
 
 public interface JobExperienceDao extends JpaRepository<JobExperience, Integer>{
 
-	List<JobExperience> getByUnemployedIdOrderByLeaveDateDesc(int unemployedId);
+	List<JobExperience> getByUnemployed_UserIdOrderByLeaveDateDesc(int unemployedId);
 }
