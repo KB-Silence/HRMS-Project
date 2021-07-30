@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.LinkService;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.dtos.LinkDto;
 
 @RestController
@@ -28,7 +29,7 @@ public class LinksController {
 	
 	@PostMapping("addLink")
 	public ResponseEntity<?> addLink(@RequestBody LinkDto linkDto) {
-		return ResponseEntity.ok(this.linkService.addLink(linkDto));
+		return ResponseEntityReturn.checkResult(this.linkService.addLink(linkDto));
 	}
 	
 	@GetMapping("getAllLinks")

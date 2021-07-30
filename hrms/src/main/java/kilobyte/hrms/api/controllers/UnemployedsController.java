@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kilobyte.hrms.business.abstracts.CvDtoService;
 import kilobyte.hrms.business.abstracts.UnemployedService;
 import kilobyte.hrms.core.utilities.results.DataResult;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.concretes.Unemployed;
 
 @RestController
@@ -43,11 +43,7 @@ public class UnemployedsController {
 	
 	@GetMapping("createCv")
 	public ResponseEntity<?> createCv(@RequestParam int unemployedId) {
-		Result result = this.cvDtoService.createCv(unemployedId);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.cvDtoService.createCv(unemployedId));
 	}
 	
 }

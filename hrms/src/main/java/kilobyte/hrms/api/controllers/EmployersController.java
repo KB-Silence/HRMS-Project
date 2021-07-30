@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.EmployerService;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.concretes.EmployerUpdate;
 
 @RestController
@@ -38,10 +38,6 @@ public class EmployersController {
 	
 	@PutMapping("updateEmployer")
 	public ResponseEntity<?> updateEmployer(@RequestBody EmployerUpdate employerUpdate) {
-		Result result = this.employerService.updateEmployer(employerUpdate);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.employerService.updateEmployer(employerUpdate));
 	}
 }

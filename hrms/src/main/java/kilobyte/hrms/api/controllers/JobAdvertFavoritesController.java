@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.JobAdvertFavoriteService;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 
 @RestController
 @RequestMapping("/api/jobAdvertFavorites/")
@@ -28,20 +28,12 @@ public class JobAdvertFavoritesController {
 	
 	@PostMapping("addFavorite")
 	public ResponseEntity<?> addFavorite(@RequestParam int unemployedId, int advertId) {
-		Result result = this.advertFavoriteService.addFavorite(unemployedId, advertId);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.advertFavoriteService.addFavorite(unemployedId, advertId));
 	}
 	
 	@DeleteMapping("deleteFavorite")
 	public ResponseEntity<?> deleteFavorite(@RequestParam int favoriteId) {
-		Result result = this.advertFavoriteService.deleteFavorite(favoriteId);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.advertFavoriteService.deleteFavorite(favoriteId));
 	}
 	
 	@GetMapping("getByUnemployed")

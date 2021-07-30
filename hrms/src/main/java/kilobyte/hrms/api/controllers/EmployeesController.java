@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.EmployeeService;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.concretes.Employee;
 import kilobyte.hrms.entities.dtos.EmployeeUpdateDto;
 
@@ -30,21 +30,13 @@ public class EmployeesController {
 	
 	@PostMapping("addEmployee")
 	public ResponseEntity<?> addEmployee(@RequestBody Employee employee) {
-		Result result = this.employeeService.addEmployee(employee);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.employeeService.addEmployee(employee));
 		
 	}
 	
 	@PutMapping("updateEmployee")
 	public ResponseEntity<?> updateEmployee(@RequestBody EmployeeUpdateDto employeeDto) {
-		Result result = this.employeeService.updateEmployee(employeeDto);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.employeeService.updateEmployee(employeeDto));
 	}
 	
 	@GetMapping("getAll")

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kilobyte.hrms.business.abstracts.PhotoService;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 
 @RestController
 @RequestMapping("/api/photos/")
@@ -32,29 +32,17 @@ public class PhotosController {
 	
 	@PostMapping("uploadPhoto")
 	public ResponseEntity<?> addPhoto(@RequestParam int unemployedId, MultipartFile multipartFile) throws IOException {
-		Result result = this.photoService.addPhoto(unemployedId, multipartFile);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.photoService.addPhoto(unemployedId, multipartFile));
 	}
 	
 	@PutMapping("updatePhoto")
 	public ResponseEntity<?> updatePhoto(@RequestParam int unemployedId, MultipartFile multipartFile) throws IOException {
-		Result result = this.photoService.updatePhoto(unemployedId, multipartFile);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.photoService.updatePhoto(unemployedId, multipartFile));
 	}
 	
 	@DeleteMapping("deletePhoto")
 	public ResponseEntity<?> deletePhoto(@RequestParam int photoId) {
-		Result result = this.photoService.deletePhoto(photoId);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.photoService.deletePhoto(photoId));
 	}
 	
 	@GetMapping("getAllPhotos")

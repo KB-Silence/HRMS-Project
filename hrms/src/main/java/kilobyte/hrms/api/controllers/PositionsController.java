@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.PositionService;
 import kilobyte.hrms.core.utilities.results.DataResult;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.concretes.Position;
 
 @RestController
@@ -31,11 +31,7 @@ public class PositionsController {
 	
 	@PostMapping("/addPosition")
 	public ResponseEntity<?> addPosition (@RequestBody Position position) {
-		Result result = this.positionService.addPosition(position);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.positionService.addPosition(position));
 	}
 	
 	@GetMapping("/getall")

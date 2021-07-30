@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.TechnologyService;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.dtos.TechnologyDto;
 
 @RestController
@@ -29,12 +30,12 @@ public class TechnologiesController {
 	
 	@PostMapping("addTechnology")
 	public ResponseEntity<?> addTechnology(@RequestBody TechnologyDto technologyDto) {
-		return ResponseEntity.ok(this.technologyService.addTechnology(technologyDto));
+		return ResponseEntityReturn.checkResult(this.technologyService.addTechnology(technologyDto));
 	}
 	
 	@DeleteMapping("deleteTechnology")
 	public ResponseEntity<?> deleteTechnology(@RequestParam int technologyId) {
-		return ResponseEntity.ok(this.technologyService.deleteTechnology(technologyId));
+		return ResponseEntityReturn.checkResult(this.technologyService.deleteTechnology(technologyId));
 	}
 	
 	@GetMapping("getAllTechnologies")
