@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.VerificationService;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 
 @RestController
 @RequestMapping("/api/verification/")
@@ -26,11 +26,7 @@ public class VerificationsController {
 	
 	@GetMapping("/approve/{code}")
 	public ResponseEntity<?> verifyUser(@PathVariable String code) {
-		Result result = this.verification.verifyUser(code);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.verification.verifyUser(code));
 	}
 	
 	

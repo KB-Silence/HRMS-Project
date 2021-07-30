@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.CoverLetterService;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.dtos.CoverLetterDto;
 
 @RestController
@@ -28,7 +29,7 @@ public class CoverLettersController {
 	
 	@PostMapping("addCoverLetter")
 	public ResponseEntity<?> addCoverLetter(@RequestBody CoverLetterDto coverLetterDto) {
-		return ResponseEntity.ok(this.coverLetterService.addCoverLetter(coverLetterDto));
+		return ResponseEntityReturn.checkResult(this.coverLetterService.addCoverLetter(coverLetterDto));
 	}
 	
 	@GetMapping("getAll")

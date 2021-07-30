@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.LanguageService;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.dtos.LanguageDto;
 
 @RestController
@@ -29,12 +30,12 @@ public class LanguagesController {
 	
 	@PostMapping("addLanguage")
 	public ResponseEntity<?> addLanguage(@RequestBody LanguageDto languageDto) {
-		return ResponseEntity.ok(this.languageService.addLanguage(languageDto));
+		return ResponseEntityReturn.checkResult(this.languageService.addLanguage(languageDto));
 	}
 	
 	@DeleteMapping("deleteLanguage")
 	public ResponseEntity<?> deleteLanguage(@RequestParam int languageId) {
-		return ResponseEntity.ok(this.languageService.deleteLanguage(languageId));
+		return ResponseEntityReturn.checkResult(this.languageService.deleteLanguage(languageId));
 	}
 	
 	@GetMapping("getAllLanguages")

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.ConfirmingUpdateService;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 
 @RestController
 @RequestMapping("/api/confirmingUpdates/")
@@ -26,7 +27,7 @@ public class ConfirmingUpdatesController {
 	
 	@PostMapping("verifyUpdate")
 	public ResponseEntity<?> verifyUpdate(@RequestParam int employeeId, int employerId, int updateId, boolean status) {
-		return ResponseEntity.ok(this.updateService.verifyUpdate(employeeId, employerId, updateId, status));
+		return ResponseEntityReturn.checkResult(this.updateService.verifyUpdate(employeeId, employerId, updateId, status));
 	}
 	
 	@GetMapping("getAll")

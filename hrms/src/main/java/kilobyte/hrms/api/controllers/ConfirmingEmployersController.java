@@ -3,6 +3,7 @@ package kilobyte.hrms.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.ConfirmingEmployerService;
 import kilobyte.hrms.core.utilities.results.DataResult;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.concretes.ConfirmingEmployer;
 import kilobyte.hrms.entities.concretes.Employer;
 
@@ -30,8 +31,8 @@ public class ConfirmingEmployersController {
 	}
 	
 	@PostMapping("confirmEmployers")
-	public Result add(@RequestParam int employeeId, int employerId, boolean status) {
-		return this.confirmingEmployerService.verify(employeeId, employerId, status);
+	public ResponseEntity<?> confirmEmployers(@RequestParam int employeeId, int employerId, boolean status) {
+		return ResponseEntityReturn.checkResult(this.confirmingEmployerService.verify(employeeId, employerId, status));
 	}
 	
 	@GetMapping("getAllApprovedEmployers")

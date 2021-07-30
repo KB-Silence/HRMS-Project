@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kilobyte.hrms.business.abstracts.JobExperienceService;
-import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.dtos.JobExperienceDto;
 
 @RestController
@@ -30,20 +30,12 @@ public class JobExperiencesController {
 
 	@PostMapping("addJobExperience")
 	public ResponseEntity<?> addJobExperience(@RequestBody JobExperienceDto jobExperienceDto) {
-		Result result = this.jobExperienceService.addJobExperience(jobExperienceDto);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.jobExperienceService.addJobExperience(jobExperienceDto));
 	}
 	
 	@DeleteMapping("deleteJobExperience")
 	public ResponseEntity<?> deleteJobExperience(@RequestParam int experienceId) {
-		Result result = this.jobExperienceService.deleteJobExperience(experienceId);
-		if(result.isSuccess()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.badRequest().body(result);
+		return ResponseEntityReturn.checkResult(this.jobExperienceService.deleteJobExperience(experienceId));
 	}
 
 	@GetMapping("getAllJobExperiences")

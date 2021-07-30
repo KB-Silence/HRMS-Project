@@ -3,6 +3,7 @@ package kilobyte.hrms.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kilobyte.hrms.business.abstracts.JobAdvertisementService;
 import kilobyte.hrms.core.utilities.results.DataResult;
 import kilobyte.hrms.core.utilities.results.Result;
+import kilobyte.hrms.core.utilities.utils.ResponseEntityReturn;
 import kilobyte.hrms.entities.concretes.JobAdvertisement;
 import kilobyte.hrms.entities.dtos.JobAdvertFilterDto;
 import kilobyte.hrms.entities.dtos.JobAdvertisementDto;
@@ -33,8 +35,8 @@ public class JobAdvertisementsController {
 	}
 	
 	@PostMapping("addAdvertisement")
-	public Result add(@RequestBody JobAdvertisementDto advertisementDto) {
-		return this.advertisementService.add(advertisementDto);
+	public ResponseEntity<?> add(@RequestBody JobAdvertisementDto advertisementDto) {
+		return ResponseEntityReturn.checkResult(this.advertisementService.add(advertisementDto));
 	}
 	
 	@PostMapping("getByApprovedAndFilter")
@@ -43,8 +45,8 @@ public class JobAdvertisementsController {
 	}
 	
 	@PutMapping("changeAdvertisementStatus")
-	public Result changeAdvertisementStatus(@RequestParam int advertId, boolean status) {
-		return this.advertisementService.changeAdvertisementStatus(advertId, status);
+	public ResponseEntity<?> changeAdvertisementStatus(@RequestParam int advertId, boolean status) {
+		return ResponseEntityReturn.checkResult(this.advertisementService.changeAdvertisementStatus(advertId, status));
 	}
 	
 	@GetMapping("getAll")
