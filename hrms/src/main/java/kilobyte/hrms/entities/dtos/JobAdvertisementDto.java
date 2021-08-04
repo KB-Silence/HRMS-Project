@@ -19,6 +19,6 @@ public class JobAdvertisementDto {
 	private int timeId;
 	private int positionId;
 	
-	private String description;
+	private String jobDescription;
 	private String lastApplication;
 }

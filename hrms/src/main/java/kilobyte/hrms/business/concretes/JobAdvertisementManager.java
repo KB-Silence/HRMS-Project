@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import kilobyte.hrms.business.abstracts.JobAdvertisementService;
 import kilobyte.hrms.core.utilities.results.DataResult;
+import kilobyte.hrms.core.utilities.results.ErrorResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
@@ -59,7 +60,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		jobAdvertisement.setMinSalary(advertisementDto.getMinSalary());
 		jobAdvertisement.setMaxSalary(advertisementDto.getMaxSalary());
 		jobAdvertisement.setQuota(advertisementDto.getQuota());
-		jobAdvertisement.setJobDescription(advertisementDto.getDescription());
+		jobAdvertisement.setJobDescription(advertisementDto.getJobDescription());
 		jobAdvertisement.setLastApplication(advertisementDto.getLastApplication());
 
 		jobAdvertisement.setCity(this.cityDao.getOne(advertisementDto.getCityId()));
@@ -67,7 +68,11 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		jobAdvertisement.setEmploymentType(this.typeDao.getOne(advertisementDto.getTypeId()));
 		jobAdvertisement.setPosition(this.positionDao.getOne(advertisementDto.getPositionId()));
 		jobAdvertisement.setEmployer(this.employerDao.getOne(advertisementDto.getEmployerId()));
-
+		
+		if(advertisementDto.getMaxSalary() <= advertisementDto.getMinSalary()) {
+			return new ErrorResult("Maksimum maaş, minimum maaşa eşit veya minimum maaştan düşük olamaz.");
+		}
+		
 		this.advertisementDao.save(jobAdvertisement);
 		return new SuccessResult("Yeni iş ilanı eklendi.");
 	}
@@ -112,5 +117,4 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 				this.advertisementDao.getByFilter(filterDto, pageable).getContent(),
 				this.advertisementDao.getByFilter(filterDto, pageable).getTotalElements() + "");
 	}
-
 }
