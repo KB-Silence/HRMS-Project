@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kilobyte.hrms.business.abstracts.PhotoService;
 import kilobyte.hrms.core.abstracts.PhotoUploadService;
 import kilobyte.hrms.core.utilities.results.DataResult;
+import kilobyte.hrms.core.utilities.results.ErrorDataResult;
 import kilobyte.hrms.core.utilities.results.ErrorResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
@@ -38,6 +39,9 @@ public class PhotoManager implements PhotoService {
 
 	@Override
 	public Result addPhoto(int unemployedId, MultipartFile file) throws IOException {
+		if(this.photoDao.getByUnemployed_UserId(unemployedId) != null) {
+			return new ErrorResult("Zaten fotoğraf yüklediniz. Lütfen fotoğraf güncellemeyi deneyin.");
+		}
 		Photo forAdd = new Photo();
 		var result = this.photoUploadService.upload(file);
 		forAdd.setUnemployed(this.unemployedDao.getOne(unemployedId));
@@ -88,6 +92,9 @@ public class PhotoManager implements PhotoService {
 
 	@Override
 	public DataResult<Photo> getByUnemployedId(int unemployedId) {
+		if(this.photoDao.getByUnemployed_UserId(unemployedId) == null) {
+			return new ErrorDataResult<Photo>("Girdiğiniz kullanıcıya ait fotoğraf bulunamadı.");
+		}
 		return new SuccessDataResult<Photo>(this.photoDao.getByUnemployed_UserId(unemployedId));
 	}
 

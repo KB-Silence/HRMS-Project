@@ -117,4 +117,9 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 				this.advertisementDao.getByFilter(filterDto, pageable).getContent(),
 				this.advertisementDao.getByFilter(filterDto, pageable).getTotalElements() + "");
 	}
+
+	@Override
+	public DataResult<JobAdvertisement> getByAdvertId(int advertId) {
+		return new SuccessDataResult<JobAdvertisement>(this.advertisementDao.getByAdvertId(advertId));
+	}
 }
