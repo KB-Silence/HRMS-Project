@@ -13,6 +13,7 @@ public interface JobAdvertisementService {
 	Result add(JobAdvertisementDto advertisementDto);
 	Result changeAdvertisementStatus(int advertId, boolean status);
 	
+	DataResult<JobAdvertisement> getByAdvertId(int advertId);
 	DataResult<List<JobAdvertisement>> getAll();
 	DataResult<List<JobAdvertisement>> getByAdvertStatusTrue();
 	DataResult<List<JobAdvertisement>> getByAdvertStatusAndSorted();
