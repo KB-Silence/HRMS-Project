@@ -25,52 +25,58 @@ import kilobyte.hrms.entities.dtos.JobAdvertisementDto;
 @RequestMapping("/api/jobAdvertisements/")
 @CrossOrigin
 public class JobAdvertisementsController {
-	
+
 	private JobAdvertisementService advertisementService;
-	
+
 	@Autowired
 	public JobAdvertisementsController(JobAdvertisementService advertisementService) {
 		super();
 		this.advertisementService = advertisementService;
 	}
-	
+
 	@PostMapping("addAdvertisement")
 	public ResponseEntity<?> add(@RequestBody JobAdvertisementDto advertisementDto) {
 		return ResponseEntityReturn.checkResult(this.advertisementService.add(advertisementDto));
 	}
-	
+
 	@PostMapping("getByApprovedAndFilter")
-	public Result getByApprovedAndFilter(@RequestBody JobAdvertFilterDto advertFilterDto, @RequestParam int pageNo, int pageSize) {
+	public Result getByApprovedAndFilter(@RequestBody JobAdvertFilterDto advertFilterDto, @RequestParam int pageNo,
+			int pageSize) {
 		return advertisementService.getByAdvertIsConfirmedAndPageNumberAndFilter(pageNo, pageSize, advertFilterDto);
 	}
-	
+
 	@PutMapping("changeAdvertisementStatus")
 	public ResponseEntity<?> changeAdvertisementStatus(@RequestParam int advertId, boolean status) {
 		return ResponseEntityReturn.checkResult(this.advertisementService.changeAdvertisementStatus(advertId, status));
 	}
-	
+
 	@GetMapping("getAll")
 	public DataResult<List<JobAdvertisement>> getAll() {
 		return this.advertisementService.getAll();
 	}
-	
+
 	@GetMapping("getByAdvertStatusTrue")
 	public DataResult<List<JobAdvertisement>> getByAdvertStatusTrue() {
 		return this.advertisementService.getByAdvertStatusTrue();
 	}
-	
+
 	@GetMapping("getByAdvertStatusAndSorted")
 	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndSorted() {
 		return this.advertisementService.getByAdvertStatusAndSorted();
 	}
-	
+
 	@GetMapping("getByAdvertStatusTrueAndEmployerId")
 	public DataResult<List<JobAdvertisement>> getByAdvertStatusTrueAndEmployerId(@RequestParam int employerId) {
 		return this.advertisementService.getByAdvertStatusTrueAndEmployerId(employerId);
 	}
-	
+
 	@GetMapping("getByAdvertIsConfirmed")
 	public DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(@RequestParam boolean status) {
 		return this.advertisementService.getByAdvertIsConfirmed(status);
+	}
+
+	@GetMapping("getByAdvertId")
+	public DataResult<JobAdvertisement> getByAdvertId(@RequestParam int advertId) {
+		return this.advertisementService.getByAdvertId(advertId);
 	}
 }
