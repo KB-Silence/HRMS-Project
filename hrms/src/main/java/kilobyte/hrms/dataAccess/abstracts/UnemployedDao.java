@@ -9,6 +9,7 @@ import kilobyte.hrms.entities.concretes.Unemployed;
 
 public interface UnemployedDao extends JpaRepository<Unemployed, Integer> {
 	
+	Unemployed getByUserId(int userId);
 	Unemployed getByNationalityId(String nationalityId);
 	Unemployed getByEmail(String email);
 	List<Unemployed> getByMailIsVerifyTrue();
