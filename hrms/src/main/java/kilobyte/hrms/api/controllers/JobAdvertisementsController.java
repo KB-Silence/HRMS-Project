@@ -79,4 +79,11 @@ public class JobAdvertisementsController {
 	public DataResult<JobAdvertisement> getByAdvertId(@RequestParam int advertId) {
 		return this.advertisementService.getByAdvertId(advertId);
 	}
+
+	@GetMapping("getByAdvertStatusAndAdvertIsConfirmedAndEmployerId")
+	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(
+			@RequestParam boolean status, boolean isConfirm, int employerId) {
+		return this.advertisementService.getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(status, isConfirm,
+				employerId);
+	}
 }
