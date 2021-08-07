@@ -23,27 +23,31 @@ public class UnemployedsController {
 
 	private UnemployedService unemployedService;
 	private CvDtoService cvDtoService;
-	
+
 	@Autowired
 	public UnemployedsController(UnemployedService unemployedService, CvDtoService cvDtoService) {
 		super();
 		this.unemployedService = unemployedService;
 		this.cvDtoService = cvDtoService;
 	}
-	
+
 	@GetMapping("getall")
 	public DataResult<List<Unemployed>> getAll() {
 		return this.unemployedService.getAll();
 	}
-	
+
 	@GetMapping("getMailIsVerifyTrue")
 	public ResponseEntity<?> getByMailIsVerifyTrue() {
-		return ResponseEntity.ok(this.unemployedService.getByMailIsVerifyTrue());
+		return ResponseEntityReturn.checkResult(this.unemployedService.getByMailIsVerifyTrue());
 	}
 	
+	@GetMapping("getByUserId")
+	public ResponseEntity<?> getByUserId(@RequestParam int userId) {
+		return ResponseEntityReturn.checkResult(this.unemployedService.getByUserId(userId));
+	}
+
 	@GetMapping("createCv")
 	public ResponseEntity<?> createCv(@RequestParam int unemployedId) {
 		return ResponseEntityReturn.checkResult(this.cvDtoService.createCv(unemployedId));
 	}
-	
 }

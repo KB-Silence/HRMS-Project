@@ -32,7 +32,7 @@ public class EmployerManager implements EmployerService {
 
 	@Override
 	public Result addEmployer(EmployerRegisterDto employerDto) {
-		if(this.checkEmailDomain(employerDto.getEmail(), employerDto.getWebSite()).isSuccess()) {
+		if (this.checkEmailDomain(employerDto.getEmail(), employerDto.getWebSite()).isSuccess()) {
 			Employer employer = new Employer();
 			employer.setCompanyName(employerDto.getCompanyName());
 			employer.setWebSite(employerDto.getWebSite());
@@ -44,18 +44,19 @@ public class EmployerManager implements EmployerService {
 		}
 		return new ErrorResult("Domain doğrulama başarısız lütfen tekrar deneyin.");
 	}
-	
+
 	@Override
 	public Result updateEmployer(EmployerUpdate employerUpdate) {
 		employerUpdate.setEmployeeId(null);
-		if(!this.employerDao.existsById(employerUpdate.getEmployerId())) {
+		if (!this.employerDao.existsById(employerUpdate.getEmployerId())) {
 			return new ErrorResult("İşveren bulunamadı.");
 		}
 		Employer employer = this.employerDao.getOne(employerUpdate.getEmployerId());
 		this.updateDao.save(employerUpdate);
 		employer.setWaitingForUpdate(true);
 		this.employerDao.save(employer);
-		return new SuccessResult("Güncelleme talebiniz alındı. İlgili personel tarafından kontrol edildikten sonra onaylanacaktır.");
+		return new SuccessResult(
+				"Güncelleme talebiniz alındı. İlgili personel tarafından kontrol edildikten sonra onaylanacaktır.");
 	}
 
 	@Override
@@ -76,5 +77,10 @@ public class EmployerManager implements EmployerService {
 	@Override
 	public DataResult<List<Employer>> getByMailIsVerifyTrue() {
 		return new SuccessDataResult<List<Employer>>(this.employerDao.getByMailIsVerifyTrue());
+	}
+
+	@Override
+	public DataResult<Employer> getByUserId(int userId) {
+		return new SuccessDataResult<Employer>(this.employerDao.getByUserId(userId));
 	}
 }
