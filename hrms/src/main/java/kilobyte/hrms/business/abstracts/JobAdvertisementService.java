@@ -20,4 +20,5 @@ public interface JobAdvertisementService {
 	DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(boolean status);
 	DataResult<List<JobAdvertisement>> getByAdvertStatusTrueAndEmployerId(int employerId);
 	DataResult<List<JobAdvertisement>> getByAdvertIsConfirmedAndPageNumberAndFilter(int pageNo, int pageSize, JobAdvertFilterDto filterDto);
+	DataResult<List<JobAdvertisement>> getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(boolean status, boolean isConfirm, int employerId);
 }

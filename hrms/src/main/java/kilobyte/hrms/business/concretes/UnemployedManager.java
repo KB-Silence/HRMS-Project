@@ -68,4 +68,9 @@ public class UnemployedManager implements UnemployedService {
 		return new SuccessDataResult<List<Unemployed>>(this.unemployedDao.getByMailIsVerifyTrue());
 	}
 
+	@Override
+	public DataResult<Unemployed> getByUserId(int userId) {
+		return new SuccessDataResult<Unemployed>(this.unemployedDao.getByUserId(userId));
+	}
+
 }

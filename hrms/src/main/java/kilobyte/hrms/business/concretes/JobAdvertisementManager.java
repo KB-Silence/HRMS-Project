@@ -48,7 +48,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
 	@Override
 	public DataResult<List<JobAdvertisement>> getAll() {
-		Sort sort = Sort.by(Sort.Direction.ASC,"advertId");
+		Sort sort = Sort.by(Sort.Direction.ASC, "advertId");
 		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.findAll(sort));
 	}
 
@@ -68,31 +68,31 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		jobAdvertisement.setEmploymentType(this.typeDao.getOne(advertisementDto.getTypeId()));
 		jobAdvertisement.setPosition(this.positionDao.getOne(advertisementDto.getPositionId()));
 		jobAdvertisement.setEmployer(this.employerDao.getOne(advertisementDto.getEmployerId()));
-		
-		if(advertisementDto.getMaxSalary() <= advertisementDto.getMinSalary()) {
+
+		if (advertisementDto.getMaxSalary() <= advertisementDto.getMinSalary()) {
 			return new ErrorResult("Maksimum maaş, minimum maaşa eşit veya minimum maaştan düşük olamaz.");
 		}
-		
+
 		this.advertisementDao.save(jobAdvertisement);
 		return new SuccessResult("Yeni iş ilanı eklendi.");
 	}
 
 	@Override
 	public DataResult<List<JobAdvertisement>> getByAdvertStatusTrue() {
-		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.getByAdvertStatusTrueOrderByAdvertIdAsc(),
-				"Data listelendi.");
+		return new SuccessDataResult<List<JobAdvertisement>>(
+				this.advertisementDao.getByAdvertStatusTrueOrderByAdvertIdAsc(), "Data listelendi.");
 	}
 
 	@Override
 	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndSorted() {
-		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.getByAdvertStatusTrueOrderByCreatedDateAsc(),
-				"Data Listelendi.");
+		return new SuccessDataResult<List<JobAdvertisement>>(
+				this.advertisementDao.getByAdvertStatusTrueOrderByCreatedDateAsc(), "Data Listelendi.");
 	}
 
 	@Override
 	public DataResult<List<JobAdvertisement>> getByAdvertStatusTrueAndEmployerId(int employerId) {
-		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.getByAdvertStatusTrueAndEmployer_UserId(employerId),
-				"Data Listelendi.");
+		return new SuccessDataResult<List<JobAdvertisement>>(
+				this.advertisementDao.getByAdvertStatusTrueAndEmployer_UserId(employerId), "Data Listelendi.");
 	}
 
 	@Override
@@ -105,8 +105,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
 	@Override
 	public DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(boolean status) {
-		return new SuccessDataResult<List<JobAdvertisement>>(
-				this.advertisementDao.getByAdvertIsConfirmed(status));
+		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.getByAdvertIsConfirmed(status));
 	}
 
 	@Override
@@ -121,5 +120,12 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	@Override
 	public DataResult<JobAdvertisement> getByAdvertId(int advertId) {
 		return new SuccessDataResult<JobAdvertisement>(this.advertisementDao.getByAdvertId(advertId));
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(boolean status,
+			boolean isConfirm, int employerId) {
+		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao
+				.getByAdvertStatusAndAdvertIsConfirmedAndEmployer_UserId(status, isConfirm, employerId));
 	}
 }
