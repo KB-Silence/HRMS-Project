@@ -33,21 +33,24 @@ public class ConfirmingJobAdvertisementManager implements ConfirmingJobAdvertise
 	}
 
 	@Override
-	public Result verify(int employeeId, int advertId, boolean status) {
+	public Result verifyAdvertisement(int employeeId, int advertId, boolean status) {
 
 		ConfirmingJobAdvertisement confirmAdvert = new ConfirmingJobAdvertisement();
 		JobAdvertisement advertisement = this.advertisementDao.getOne(advertId);
-
 		confirmAdvert.setEmployee(this.employeeDao.getOne(employeeId));
 		confirmAdvert.setJobAdvertisement(this.advertisementDao.getOne(advertId));
 		confirmAdvert.setVerifiedStatus(status);
-		
-		advertisement.setAdvertIsConfirmed(true);
-		
-		this.confirmingJobAdvertisementDao.save(confirmAdvert);
+		advertisement.setAdvertStatus(status);
+		advertisement.setAdvertIsConfirmed(status);
 		this.advertisementDao.save(advertisement);
-		
-		return new SuccessResult("İlan onaylandı.");
+		this.confirmingJobAdvertisementDao.save(confirmAdvert);
+
+		if (status) {
+			return new SuccessResult("İlanı onayladınız.");
+		} else {
+			return new SuccessResult("İlanı onaylamadınız.");
+		}
+
 	}
 
 	@Override
@@ -56,8 +59,9 @@ public class ConfirmingJobAdvertisementManager implements ConfirmingJobAdvertise
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(boolean status) {
-		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.getByAdvertIsConfirmed(status), "Onaylanmayanlar listelendi.");
+	public DataResult<List<JobAdvertisement>> getByAdvertIsConfirmedFalse() {
+		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.getByAdvertIsConfirmedFalse(),
+				"Onaylanmayanlar listelendi.");
 	}
 
 }

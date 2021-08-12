@@ -9,6 +9,7 @@ import kilobyte.hrms.entities.dtos.TechnologyDto;
 
 public interface TechnologyService {
 	Result addTechnology(TechnologyDto technologyDto);
+	Result updateTechnology(TechnologyDto technologyDto, int technologyId);
 	Result deleteTechnology(int technologyId);
 	DataResult<List<Technology>> getAll();
 	DataResult<List<Technology>> getByUnemployedId(int unemployedId);

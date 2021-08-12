@@ -9,7 +9,7 @@ import kilobyte.hrms.entities.concretes.Employer;
 
 public interface ConfirmingEmployerService {
 
-	Result verify (int employeeId, int employerId, boolean status);
+	Result verifyEmployer (int employeeId, int employerId);
 	DataResult<List<ConfirmingEmployer>> getAll();
-	DataResult<List<Employer>> getByEmployerIsConfirmed(boolean status);
+	DataResult<List<Employer>> getByEmployerIsConfirmedFalse();
 }

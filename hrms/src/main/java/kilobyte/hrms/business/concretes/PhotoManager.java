@@ -38,44 +38,29 @@ public class PhotoManager implements PhotoService {
 	}
 
 	@Override
-	public Result addPhoto(int unemployedId, MultipartFile file) throws IOException {
-		if(this.photoDao.getByUnemployed_UserId(unemployedId) != null) {
-			return new ErrorResult("Zaten fotoğraf yüklediniz. Lütfen fotoğraf güncellemeyi deneyin.");
-		}
-		Photo forAdd = new Photo();
+	public Result uploadPhoto(int unemployedId, MultipartFile file) throws IOException {
+		Photo photo = this.photoDao.getByUnemployed_UserId(unemployedId);
 		var result = this.photoUploadService.upload(file);
-		forAdd.setUnemployed(this.unemployedDao.getOne(unemployedId));
-		forAdd.setPhotoUrl(result.getData().get("url").toString());
-		forAdd.setUploadDate(LocalDate.now());
-		this.photoDao.save(forAdd);
+		photo.setPhotoUrl(result.getData().get("url").toString());
+		photo.setUploadDate(LocalDate.now());
+		this.photoDao.save(photo);
 		return new SuccessResult("Fotoğraf yüklendi.");
 	}
 
 	@Override
-	public Result updatePhoto(int unemployedId, MultipartFile file) throws IOException {
-		Photo forUpdate = this.photoDao.getByUnemployed_UserId(unemployedId);
-		if (forUpdate.getPhotoUrl() != null) {
-			this.photoUploadService.delete(forUpdate.getPhotoId());
-			var result = this.photoUploadService.upload(file);
-			forUpdate.setPhotoUrl(result.getData().get("url").toString());
-			forUpdate.setUploadDate(LocalDate.now());
-			this.photoDao.save(forUpdate);
-			return new SuccessResult("Fotoğraf başarıyla güncellendi.");
-		} else {
-			return new ErrorResult("Fotoğraf güncellenemedi.");
-		}
-
+	public Result newRegister(int unemployedId) {
+		Photo photo = new Photo();
+		photo.setPhotoUrl(defaultPhoto);
+		photo.setUploadDate(LocalDate.now());
+		photo.setUnemployed(this.unemployedDao.getOne(unemployedId));
+		this.photoDao.save(photo);
+		return new SuccessResult();
 	}
 
 	@Override
-	public Result deletePhoto(int photoId) {
-
-		if (!this.photoDao.existsById(photoId)) {
-			return new ErrorResult("Silinecek bir fotoğraf yok :( ...");
-		}
-
+	public Result deletePhoto(int unemployedId) {
 		try {
-			Photo photo = this.photoDao.getOne(photoId);
+			Photo photo = this.photoDao.getByUnemployed_UserId(unemployedId);
 			this.photoUploadService.delete(photo.getPhotoId());
 			photo.setPhotoUrl(defaultPhoto);
 			this.photoDao.save(photo);

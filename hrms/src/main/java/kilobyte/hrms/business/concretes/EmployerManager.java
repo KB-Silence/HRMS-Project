@@ -52,6 +52,9 @@ public class EmployerManager implements EmployerService {
 			return new ErrorResult("İşveren bulunamadı.");
 		}
 		Employer employer = this.employerDao.getOne(employerUpdate.getEmployerId());
+		if (this.updateDao.getByEmployerIdAndApproveStatusFalse(employer.getUserId()) != null) {
+			return new ErrorResult("Zaten talep oluşturmuşsunuz.");
+		}
 		this.updateDao.save(employerUpdate);
 		employer.setWaitingForUpdate(true);
 		this.employerDao.save(employer);

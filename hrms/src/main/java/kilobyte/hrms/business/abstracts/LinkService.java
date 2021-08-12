@@ -9,6 +9,7 @@ import kilobyte.hrms.entities.dtos.LinkDto;
 
 public interface LinkService {
 	Result addLink(LinkDto linkDto);
+	Result updateLink(LinkDto linkDto);
 	DataResult<List<Link>> getAll();
 	DataResult<Link> getByUnemployedId(int unemployedId);
 }

@@ -11,9 +11,9 @@ import kilobyte.hrms.entities.concretes.Photo;
 
 public interface PhotoService {
 	
-	Result addPhoto(int unemployedId, MultipartFile file) throws IOException;
-	Result updatePhoto(int unemployedId, MultipartFile file) throws IOException ;
-	Result deletePhoto(int photoId);
+	Result uploadPhoto(int unemployedId, MultipartFile file) throws IOException;
+	Result newRegister(int unemployedId);
+	Result deletePhoto(int unemployedId);
 	DataResult<List<Photo>> getAll();
 	DataResult<Photo> getByUnemployedId(int unemployedId);
 	

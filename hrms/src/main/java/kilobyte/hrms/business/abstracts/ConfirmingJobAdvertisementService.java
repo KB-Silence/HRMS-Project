@@ -9,8 +9,8 @@ import kilobyte.hrms.entities.concretes.JobAdvertisement;
 
 public interface ConfirmingJobAdvertisementService {
 
-	Result verify (int employeeId, int advertId, boolean status);
+	Result verifyAdvertisement (int employeeId, int advertId, boolean status);
 	DataResult<List<ConfirmingJobAdvertisement>> getAll();
-	DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(boolean status);
+	DataResult<List<JobAdvertisement>> getByAdvertIsConfirmedFalse();
 	
 }

@@ -84,9 +84,9 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndSorted() {
+	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndEmployerIdSorted(int employerId) {
 		return new SuccessDataResult<List<JobAdvertisement>>(
-				this.advertisementDao.getByAdvertStatusTrueOrderByCreatedDateAsc(), "Data Listelendi.");
+				this.advertisementDao.getByAdvertStatusFalseAndEmployer_UserIdOrderByCreatedDateAsc(employerId), "Data Listelendi.");
 	}
 
 	@Override
@@ -96,11 +96,16 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	}
 
 	@Override
-	public Result changeAdvertisementStatus(int advertId, boolean status) {
+	public Result changeAdvertisementStatus(int advertId) {
 		JobAdvertisement advertisement = this.advertisementDao.getByAdvertId(advertId);
-		advertisement.setAdvertStatus(status);
+		if(advertisement.getAdvertStatus()) {
+			advertisement.setAdvertStatus(false);
+			this.advertisementDao.save(advertisement);
+			return new SuccessResult("İş ilanı pasif duruma getirildi.");
+		}
+		advertisement.setAdvertStatus(true);
 		this.advertisementDao.save(advertisement);
-		return new SuccessResult("İş ilanı durumu değiştirildi.");
+		return new SuccessResult("İş ilanı aktif duruma getirildi.");
 	}
 
 	@Override
@@ -123,9 +128,14 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(boolean status,
-			boolean isConfirm, int employerId) {
+	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(int employerId) {
 		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao
-				.getByAdvertStatusAndAdvertIsConfirmedAndEmployer_UserId(status, isConfirm, employerId));
+				.getByAdvertStatusTrueAndAdvertIsConfirmedTrueAndEmployer_UserIdOrderByCreatedDateAsc(employerId));
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getByAdvertStatusFalseAndAdvertIsConfirmedTrueAndEmployerId(
+			int employerId) {
+		return new SuccessDataResult<List<JobAdvertisement>>(this.advertisementDao.getByAdvertStatusFalseAndAdvertIsConfirmedTrueAndEmployer_UserIdOrderByCreatedDateAsc(employerId));
 	}
 }

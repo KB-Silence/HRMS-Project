@@ -11,14 +11,16 @@ import kilobyte.hrms.entities.dtos.JobAdvertisementDto;
 public interface JobAdvertisementService {
 	
 	Result add(JobAdvertisementDto advertisementDto);
-	Result changeAdvertisementStatus(int advertId, boolean status);
+	Result changeAdvertisementStatus(int advertId);
 	
 	DataResult<JobAdvertisement> getByAdvertId(int advertId);
 	DataResult<List<JobAdvertisement>> getAll();
 	DataResult<List<JobAdvertisement>> getByAdvertStatusTrue();
-	DataResult<List<JobAdvertisement>> getByAdvertStatusAndSorted();
+	DataResult<List<JobAdvertisement>> getByAdvertStatusAndEmployerIdSorted(int employerId);
 	DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(boolean status);
 	DataResult<List<JobAdvertisement>> getByAdvertStatusTrueAndEmployerId(int employerId);
+	DataResult<List<JobAdvertisement>> getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(int employerId);
+	DataResult<List<JobAdvertisement>> getByAdvertStatusFalseAndAdvertIsConfirmedTrueAndEmployerId(int employerId);
 	DataResult<List<JobAdvertisement>> getByAdvertIsConfirmedAndPageNumberAndFilter(int pageNo, int pageSize, JobAdvertFilterDto filterDto);
-	DataResult<List<JobAdvertisement>> getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(boolean status, boolean isConfirm, int employerId);
+	
 }
