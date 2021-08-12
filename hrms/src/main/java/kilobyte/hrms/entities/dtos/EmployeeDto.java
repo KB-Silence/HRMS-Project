@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,12 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeUpdateDto {
-
-	@NotNull
-	@NotBlank
-	private int employeeId;
+public class EmployeeDto {
 	
+	@Nullable
 	private int positionId;
 	
 	@NotNull
@@ -40,5 +38,10 @@ public class EmployeeUpdateDto {
 	@NotBlank
 	@Length(min=10, max=10)
 	private String phoneNumber;
+	
+	@NotNull
+	@NotBlank
+	@Length(min=6, max=20)
+	private String password;
 	
 }
