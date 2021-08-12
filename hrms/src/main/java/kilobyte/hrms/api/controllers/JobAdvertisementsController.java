@@ -46,8 +46,8 @@ public class JobAdvertisementsController {
 	}
 
 	@PutMapping("changeAdvertisementStatus")
-	public ResponseEntity<?> changeAdvertisementStatus(@RequestParam int advertId, boolean status) {
-		return ResponseEntityReturn.checkResult(this.advertisementService.changeAdvertisementStatus(advertId, status));
+	public ResponseEntity<?> changeAdvertisementStatus(@RequestParam int advertId) {
+		return ResponseEntityReturn.checkResult(this.advertisementService.changeAdvertisementStatus(advertId));
 	}
 
 	@GetMapping("getAll")
@@ -60,9 +60,10 @@ public class JobAdvertisementsController {
 		return this.advertisementService.getByAdvertStatusTrue();
 	}
 
-	@GetMapping("getByAdvertStatusAndSorted")
-	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndSorted() {
-		return this.advertisementService.getByAdvertStatusAndSorted();
+	@GetMapping("getByAdvertStatusFalseAndEmployerIdSorted")
+	public ResponseEntity<?> getByAdvertStatusFalseAndEmployerIdSorted(@RequestParam int employerId) {
+		return ResponseEntityReturn
+				.checkResult(this.advertisementService.getByAdvertStatusAndEmployerIdSorted(employerId));
 	}
 
 	@GetMapping("getByAdvertStatusTrueAndEmployerId")
@@ -82,8 +83,13 @@ public class JobAdvertisementsController {
 
 	@GetMapping("getByAdvertStatusAndAdvertIsConfirmedAndEmployerId")
 	public DataResult<List<JobAdvertisement>> getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(
-			@RequestParam boolean status, boolean isConfirm, int employerId) {
-		return this.advertisementService.getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(status, isConfirm,
-				employerId);
+			@RequestParam int employerId) {
+		return this.advertisementService.getByAdvertStatusAndAdvertIsConfirmedAndEmployerId(employerId);
+	}
+
+	@GetMapping("getByAdvertStatusFalseAndAdvertIsConfirmedTrueAndEmployerId")
+	public ResponseEntity<?> getByAdvertStatusFalseAndAdvertIsConfirmedTrueAndEmployerId(@RequestParam int employerId) {
+		return ResponseEntityReturn.checkResult(
+				this.advertisementService.getByAdvertStatusFalseAndAdvertIsConfirmedTrueAndEmployerId(employerId));
 	}
 }

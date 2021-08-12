@@ -26,8 +26,8 @@ public class ConfirmingUpdatesController {
 	}
 	
 	@PostMapping("verifyUpdate")
-	public ResponseEntity<?> verifyUpdate(@RequestParam int employeeId, int employerId, int updateId, boolean status) {
-		return ResponseEntityReturn.checkResult(this.updateService.verifyUpdate(employeeId, employerId, updateId, status));
+	public ResponseEntity<?> verifyUpdate(@RequestParam int employeeId, int employerId, boolean status) {
+		return ResponseEntityReturn.checkResult(this.updateService.verifyUpdate(employeeId, employerId, status));
 	}
 	
 	@GetMapping("getAll")
@@ -36,13 +36,13 @@ public class ConfirmingUpdatesController {
 	}
 	
 	@GetMapping("getByApproveStatus")
-	public ResponseEntity<?> getByApproveStatus(@RequestParam boolean status) {
-		return ResponseEntity.ok(this.updateService.getByApproveStatus(status));
+	public ResponseEntity<?> getByApproveStatus() {
+		return ResponseEntity.ok(this.updateService.getByApproveStatusFalse());
 	}
 	
 	@GetMapping("getByWaitingForUpdate")
-	public ResponseEntity<?> getByWaitingForUpdate(@RequestParam boolean status) {
-		return ResponseEntity.ok(this.updateService.getByWaitingForUpdate(status));
+	public ResponseEntity<?> getByWaitingForUpdate() {
+		return ResponseEntity.ok(this.updateService.getByWaitingForUpdateTrue());
 	}
 
 }

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,18 +30,13 @@ public class PhotosController {
 	}
 	
 	@PostMapping("uploadPhoto")
-	public ResponseEntity<?> addPhoto(@RequestParam int unemployedId, MultipartFile multipartFile) throws IOException {
-		return ResponseEntityReturn.checkResult(this.photoService.addPhoto(unemployedId, multipartFile));
-	}
-	
-	@PutMapping("updatePhoto")
-	public ResponseEntity<?> updatePhoto(@RequestParam int unemployedId, MultipartFile multipartFile) throws IOException {
-		return ResponseEntityReturn.checkResult(this.photoService.updatePhoto(unemployedId, multipartFile));
+	public ResponseEntity<?> uploadPhoto(@RequestParam int unemployedId, MultipartFile multipartFile) throws IOException {
+		return ResponseEntityReturn.checkResult(this.photoService.uploadPhoto(unemployedId, multipartFile));
 	}
 	
 	@DeleteMapping("deletePhoto")
-	public ResponseEntity<?> deletePhoto(@RequestParam int photoId) {
-		return ResponseEntityReturn.checkResult(this.photoService.deletePhoto(photoId));
+	public ResponseEntity<?> deletePhoto(@RequestParam int unemployedId) {
+		return ResponseEntityReturn.checkResult(this.photoService.deletePhoto(unemployedId));
 	}
 	
 	@GetMapping("getAllPhotos")

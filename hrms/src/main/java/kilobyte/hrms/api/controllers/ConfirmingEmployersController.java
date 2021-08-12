@@ -31,8 +31,8 @@ public class ConfirmingEmployersController {
 	}
 	
 	@PostMapping("confirmEmployers")
-	public ResponseEntity<?> confirmEmployers(@RequestParam int employeeId, int employerId, boolean status) {
-		return ResponseEntityReturn.checkResult(this.confirmingEmployerService.verify(employeeId, employerId, status));
+	public ResponseEntity<?> confirmEmployers(@RequestParam int employeeId, int employerId) {
+		return ResponseEntityReturn.checkResult(this.confirmingEmployerService.verifyEmployer(employeeId, employerId));
 	}
 	
 	@GetMapping("getAllApprovedEmployers")
@@ -41,7 +41,7 @@ public class ConfirmingEmployersController {
 	}
 	
 	@GetMapping("getByEmployerIsConfirmed")
-	public DataResult<List<Employer>> getByEmployerIsConfirmed(@RequestParam boolean status) {
-		return this.confirmingEmployerService.getByEmployerIsConfirmed(status);
+	public DataResult<List<Employer>> getByEmployerIsConfirmed() {
+		return this.confirmingEmployerService.getByEmployerIsConfirmedFalse();
 	}
 }
