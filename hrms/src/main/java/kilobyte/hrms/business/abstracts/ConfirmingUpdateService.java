@@ -10,8 +10,8 @@ import kilobyte.hrms.entities.concretes.EmployerUpdate;
 
 public interface ConfirmingUpdateService {
 
-	Result verifyUpdate(int employeeId, int employerId, int updateId, boolean status);
+	Result verifyUpdate(int employeeId, int employerId, boolean status);
 	DataResult<List<ConfirmingUpdate>> getAll();
-	DataResult<List<EmployerUpdate>> getByApproveStatus(boolean status);
-	DataResult<List<Employer>> getByWaitingForUpdate(boolean status);
+	DataResult<List<EmployerUpdate>> getByApproveStatusFalse();
+	DataResult<List<Employer>> getByWaitingForUpdateTrue();
 }

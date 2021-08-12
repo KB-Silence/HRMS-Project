@@ -53,7 +53,7 @@ public class CvDtoManager implements CvDtoService{
 		cv.setTechnologies(this.technologyService.getByUnemployedId(unemployedId).getData());
 		cv.setLanguages(this.languageService.getByUnemployedId(unemployedId).getData());
 		cv.setLink(this.linkService.getByUnemployedId(unemployedId).getData());
-		cv.setCoverLetters(this.coverLetterService.getByUnemployedId(unemployedId).getData());
+		cv.setCoverLetter(this.coverLetterService.getByUnemployedId(unemployedId).getData());
 		cv.setPhoto(this.photoService.getByUnemployedId(unemployedId).getData());
 		return new SuccessDataResult<CvDto>(cv);
 	}

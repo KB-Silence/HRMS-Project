@@ -9,6 +9,7 @@ import kilobyte.hrms.entities.dtos.CoverLetterDto;
 
 public interface CoverLetterService {
 	Result addCoverLetter(CoverLetterDto coverLetterDto);
+	Result updateCoverLetter(CoverLetterDto coverLetterDto);
 	DataResult<List<CoverLetter>> getAll();
-	DataResult<List<CoverLetter>> getByUnemployedId(int unemployedId);
+	DataResult<CoverLetter> getByUnemployedId(int unemployedId);
 }

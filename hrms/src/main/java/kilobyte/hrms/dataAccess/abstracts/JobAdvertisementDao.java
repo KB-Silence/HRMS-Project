@@ -13,18 +13,14 @@ import kilobyte.hrms.entities.dtos.JobAdvertFilterDto;
 
 public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Integer> {
 
-	List<JobAdvertisement> getByAdvertStatusTrueOrderByAdvertIdAsc();
-
-	List<JobAdvertisement> getByAdvertStatusTrueOrderByCreatedDateAsc();
-
-	List<JobAdvertisement> getByAdvertStatusTrueAndEmployer_UserId(int employerId);
-
-	List<JobAdvertisement> getByAdvertIsConfirmed(boolean verified);
-	
-	List<JobAdvertisement> getByAdvertStatusAndAdvertIsConfirmedAndEmployer_UserId(boolean status, boolean isConfirm, int employerId);
-
 	JobAdvertisement getByAdvertId(int advertId);
-	
+	List<JobAdvertisement> getByAdvertStatusTrueOrderByAdvertIdAsc();
+	List<JobAdvertisement> getByAdvertStatusTrueAndEmployer_UserId(int employerId);
+	List<JobAdvertisement> getByAdvertIsConfirmedFalse();
+	List<JobAdvertisement> getByAdvertIsConfirmed(boolean status);
+	List<JobAdvertisement> getByAdvertStatusFalseAndEmployer_UserIdOrderByCreatedDateAsc(int employerId);
+	List<JobAdvertisement> getByAdvertStatusTrueAndAdvertIsConfirmedTrueAndEmployer_UserIdOrderByCreatedDateAsc(int employerId);
+	List<JobAdvertisement> getByAdvertStatusFalseAndAdvertIsConfirmedTrueAndEmployer_UserIdOrderByCreatedDateAsc(int employerId);
 	@Query("Select j from kilobyte.hrms.entities.concretes.JobAdvertisement j where ((:#{#filter.cityId}) IS NULL OR j.city.cityId IN (:#{#filter.cityId}))"
 	        +" and ((:#{#filter.positionId}) IS NULL OR j.position.positionId IN (:#{#filter.positionId}))"
 	        +" and ((:#{#filter.typeId}) IS NULL OR j.employmentType.typeId IN (:#{#filter.typeId}))"

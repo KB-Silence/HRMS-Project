@@ -4,11 +4,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,10 +40,10 @@ public class Employee extends User {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@NotBlank
-	@NotNull
-	@Column(name = "position_id")
-	private int positionId;
+	@Nullable
+	@ManyToOne()
+	@JoinColumn(name = "position_id")
+	private Position position;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "employee")

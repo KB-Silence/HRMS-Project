@@ -11,7 +11,7 @@ public interface EmployerDao extends JpaRepository<Employer, Integer>{
 	Employer getByEmail(String email);
 	Employer getByUserId(int userId);
 	List<Employer> getByMailIsVerifyTrue();
-	List<Employer> getByEmployerIsConfirmed(boolean status);
-	List<Employer> getByWaitingForUpdate(boolean status);
+	List<Employer> getByEmployerIsConfirmedFalse();
+	List<Employer> getByWaitingForUpdateTrue();
 
 }

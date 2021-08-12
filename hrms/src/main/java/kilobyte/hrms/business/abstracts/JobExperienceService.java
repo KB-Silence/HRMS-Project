@@ -10,6 +10,7 @@ import kilobyte.hrms.entities.dtos.JobExperienceDto;
 public interface JobExperienceService {
 	
 	Result addJobExperience(JobExperienceDto jobExperienceDto);
+	Result updateJobExperience(JobExperienceDto jobExperienceDto, int experienceId);
 	Result deleteJobExperience(int experienceId);
 	DataResult<List<JobExperience>> getAll();
 	DataResult<List<JobExperience>> getByUnemployedIdOrderByLeaveDateDesc(int unemployedId);

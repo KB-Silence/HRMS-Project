@@ -32,7 +32,7 @@ public class ConfirmingJobAdvertisementsController {
 	
 	@PostMapping("confirmJobAdverts")
 	public ResponseEntity<?> confirmJobAdvertisements(@RequestParam int employeeId, int advertId, boolean status) {
-		return ResponseEntityReturn.checkResult(this.confirmJobAdvertService.verify(employeeId, advertId, status));
+		return ResponseEntityReturn.checkResult(this.confirmJobAdvertService.verifyAdvertisement(employeeId, advertId, status));
 	}
 	
 	@GetMapping("getAll")
@@ -41,8 +41,8 @@ public class ConfirmingJobAdvertisementsController {
 	}
 	
 	@GetMapping("getByAdvertIsConfirmed")
-	public DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed(@RequestParam boolean status) {
-		return this.confirmJobAdvertService.getByAdvertIsConfirmed(status);
+	public DataResult<List<JobAdvertisement>> getByAdvertIsConfirmed() {
+		return this.confirmJobAdvertService.getByAdvertIsConfirmedFalse();
 	}
 	
 }

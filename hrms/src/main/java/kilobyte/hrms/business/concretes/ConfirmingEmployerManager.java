@@ -33,14 +33,14 @@ public class ConfirmingEmployerManager implements ConfirmingEmployerService {
 	}
 
 	@Override
-	public Result verify(int employeeId, int employerId, boolean status) {
+	public Result verifyEmployer(int employeeId, int employerId) {
 
 		Employer employer = this.employerDao.getOne(employerId);
 		ConfirmingEmployer confirmEmployer = new ConfirmingEmployer();
 		
 		confirmEmployer.setEmployee(this.employeeDao.getOne(employeeId));
 		confirmEmployer.setEmployer(this.employerDao.getOne(employerId));
-		confirmEmployer.setVerifiedStatus(status);
+		confirmEmployer.setVerifiedStatus(true);
 		
 		employer.setEmployerIsConfirmed(true);
 		
@@ -56,8 +56,8 @@ public class ConfirmingEmployerManager implements ConfirmingEmployerService {
 	}
 
 	@Override
-	public DataResult<List<Employer>> getByEmployerIsConfirmed(boolean status) {
-		return new SuccessDataResult<List<Employer>>(this.employerDao.getByEmployerIsConfirmed(status), "Onaylanmayan iş verenler listelendi.");
+	public DataResult<List<Employer>> getByEmployerIsConfirmedFalse() {
+		return new SuccessDataResult<List<Employer>>(this.employerDao.getByEmployerIsConfirmedFalse(), "Onaylanmayan iş verenler listelendi.");
 	}
 
 }

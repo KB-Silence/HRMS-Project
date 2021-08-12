@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import kilobyte.hrms.business.abstracts.ConfirmingUpdateService;
 import kilobyte.hrms.core.utilities.results.DataResult;
-import kilobyte.hrms.core.utilities.results.ErrorResult;
 import kilobyte.hrms.core.utilities.results.Result;
 import kilobyte.hrms.core.utilities.results.SuccessDataResult;
 import kilobyte.hrms.core.utilities.results.SuccessResult;
@@ -38,12 +37,9 @@ public class ConfirmingUpdateManager implements ConfirmingUpdateService {
 	}
 
 	@Override
-	public Result verifyUpdate(int employeeId, int employerId, int updateId, boolean status) {
-		if(!this.employerUpdateDao.existsById(updateId)) {
-			return new ErrorResult("Güncelleme talebi bulunamadı.");
-		}
+	public Result verifyUpdate(int employeeId, int employerId, boolean status) {
 		
-		EmployerUpdate employerUpdate = this.employerUpdateDao.getOne(updateId);
+		EmployerUpdate employerUpdate = this.employerUpdateDao.getByEmployerIdAndApproveStatusFalse(employerId);
 		Employer employer = this.employerDao.getOne(employerId);
 		ConfirmingUpdate confirmingUpdate = new ConfirmingUpdate();
 		
@@ -62,7 +58,7 @@ public class ConfirmingUpdateManager implements ConfirmingUpdateService {
 		
 		confirmingUpdate.setEmployee(this.employeeDao.getOne(employeeId));
 		confirmingUpdate.setEmployer(this.employerDao.getOne(employerId));
-		confirmingUpdate.setEmployerUpdate(this.employerUpdateDao.getOne(updateId));
+		confirmingUpdate.setEmployerUpdate(this.employerUpdateDao.getOne(employerUpdate.getUpdateId()));
 		confirmingUpdate.setVerifiedStatus(status);
 		
 		this.confirmingUpdateDao.save(confirmingUpdate);
@@ -76,13 +72,13 @@ public class ConfirmingUpdateManager implements ConfirmingUpdateService {
 	}
 
 	@Override
-	public DataResult<List<EmployerUpdate>> getByApproveStatus(boolean status) {
-		return new SuccessDataResult<List<EmployerUpdate>>(this.employerUpdateDao.getByApproveStatus(status), "Onay durumuna göre listelendi.");
+	public DataResult<List<EmployerUpdate>> getByApproveStatusFalse() {
+		return new SuccessDataResult<List<EmployerUpdate>>(this.employerUpdateDao.getByApproveStatusFalse(), "Onay durumuna göre listelendi.");
 	}
 
 	@Override
-	public DataResult<List<Employer>> getByWaitingForUpdate(boolean status) {
-		return new SuccessDataResult<List<Employer>>(this.employerDao.getByWaitingForUpdate(status), "Onay bekleyen iş verenler listelendi.");
+	public DataResult<List<Employer>> getByWaitingForUpdateTrue() {
+		return new SuccessDataResult<List<Employer>>(this.employerDao.getByWaitingForUpdateTrue(), "Onay bekleyen iş verenler listelendi.");
 	}
 
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,11 @@ public class LanguagesController {
 	@PostMapping("addLanguage")
 	public ResponseEntity<?> addLanguage(@RequestBody LanguageDto languageDto) {
 		return ResponseEntityReturn.checkResult(this.languageService.addLanguage(languageDto));
+	}
+	
+	@PutMapping("updateLanguage")
+	public ResponseEntity<?> updateLanguage(@RequestBody LanguageDto languageDto, @RequestParam int languageId) {
+		return ResponseEntityReturn.checkResult(this.languageService.updateLanguage(languageDto, languageId));
 	}
 	
 	@DeleteMapping("deleteLanguage")

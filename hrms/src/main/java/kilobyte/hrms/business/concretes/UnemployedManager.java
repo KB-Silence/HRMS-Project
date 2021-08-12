@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kilobyte.hrms.business.abstracts.PhotoService;
 import kilobyte.hrms.business.abstracts.UnemployedService;
 import kilobyte.hrms.core.abstracts.MernisService;
 import kilobyte.hrms.core.utilities.results.DataResult;
@@ -21,12 +22,14 @@ public class UnemployedManager implements UnemployedService {
 
 	private UnemployedDao unemployedDao;
 	private MernisService mernisService;
+	private PhotoService photoService;
 
 	@Autowired
-	public UnemployedManager(UnemployedDao unemployedDao, MernisService mernisService) {
+	public UnemployedManager(UnemployedDao unemployedDao, MernisService mernisService, PhotoService photoService) {
 		super();
 		this.unemployedDao = unemployedDao;
 		this.mernisService = mernisService;
+		this.photoService = photoService;
 	}
 
 	@Override
@@ -42,10 +45,11 @@ public class UnemployedManager implements UnemployedService {
 				unemployed.setBirthDate(unemployedDto.getBirthDate());
 				unemployed.setPhoneNumber(unemployedDto.getPhoneNumber());
 				this.unemployedDao.save(unemployed);
+				this.photoService.newRegister(unemployed.getUserId());
 				return new SuccessResult("Kayıt işlemi başarılı.");
 			}
 		}
-		return new ErrorResult("Kayıt işlemi sırasında hata oluştu. Bilgileri kontrol edip tekrar deneyin.");
+		return new ErrorResult("Kimlik bilgisi hatalı. Kontrol edip tekrar deneyin.");
 	}
 
 	@Override

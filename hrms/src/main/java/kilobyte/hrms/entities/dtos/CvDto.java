@@ -24,24 +24,24 @@ public class CvDto {
 	@JsonIgnoreProperties({"id","password"})
 	private Unemployed unemployed;
 	
-	@JsonIgnoreProperties({"unemployed","educationId"})
+	@JsonIgnoreProperties({"unemployed"})
 	private List<Education> educations;
 	
-	@JsonIgnoreProperties({"unemployed","experienceId"})
+	@JsonIgnoreProperties({"unemployed"})
 	private List<JobExperience> jobExperiences;
 	
-	@JsonIgnoreProperties({"unemployed","technologyId"})
+	@JsonIgnoreProperties({"unemployed"})
 	private List<Technology> technologies;
 	
-	@JsonIgnoreProperties({"unemployed","languageId"})
+	@JsonIgnoreProperties({"unemployed"})
 	private List<Language> languages;
 	
-	@JsonIgnoreProperties({"unemployed","linkId"})
+	@JsonIgnoreProperties({"unemployed"})
 	private Link link;
 	
-	@JsonIgnoreProperties({"unemployed","letterId"})
-	private List<CoverLetter> coverLetters;
+	@JsonIgnoreProperties({"unemployed"})
+	private CoverLetter coverLetter;
 	
-	@JsonIgnoreProperties({"unemployed","photoId"})
+	@JsonIgnoreProperties({"unemployed"})
 	private Photo photo;
 }

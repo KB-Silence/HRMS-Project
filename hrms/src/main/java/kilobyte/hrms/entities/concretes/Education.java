@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.lang.Nullable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,6 +46,7 @@ public class Education {
 	@Column(name = "start_date")
 	private LocalDate startDate;
 	
+	@Nullable
 	@Column(name = "graduated_date")
 	private LocalDate graduatedDate;
 	

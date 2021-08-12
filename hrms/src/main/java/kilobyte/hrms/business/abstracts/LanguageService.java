@@ -9,6 +9,7 @@ import kilobyte.hrms.entities.dtos.LanguageDto;
 
 public interface LanguageService {
 	Result addLanguage(LanguageDto languageDto);
+	Result updateLanguage(LanguageDto languageDto, int languageId);
 	Result deleteLanguage(int languageId);
 	DataResult<List<Language>> getAll();
 	DataResult<List<Language>> getByUnemployedId(int unemployedId);
