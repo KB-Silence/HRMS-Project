@@ -8,5 +8,6 @@ import kilobyte.hrms.entities.concretes.EmployerUpdate;
 
 public interface EmployerUpdateDao extends JpaRepository<EmployerUpdate, Integer>{
 
-	List<EmployerUpdate> getByApproveStatus(boolean status);
+	EmployerUpdate getByEmployerIdAndApproveStatusFalse(int employerId);
+	List<EmployerUpdate> getByApproveStatusFalse();
 }
