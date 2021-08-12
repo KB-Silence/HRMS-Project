@@ -60,9 +60,8 @@ public class JobAdvertisement {
 	private LocalDate createdDate = LocalDate.now();
 
 	@Column(name = "advert_status")
-	private Boolean advertStatus = true;
+	private Boolean advertStatus = false;
 	
-	@JsonIgnore
 	@Column(name = "advert_is_confirmed")
 	private Boolean advertIsConfirmed = false;
 

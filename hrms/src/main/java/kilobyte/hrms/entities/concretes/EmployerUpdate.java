@@ -31,7 +31,6 @@ public class EmployerUpdate {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="update_id")
-	@JsonIgnore
 	private int updateId;
 	
 	@NotNull
