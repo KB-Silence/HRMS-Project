@@ -2,8 +2,8 @@
 Engin Demiroğ - Yazılımcı Geliştirme (JAVA + REACT) Yetiştirme Kampı HRMS Projesi
 
 **[Güncelleme Notları](https://github.com/KB-Silence/HRMS-Project/commits/main)**  
-**[Veritabanı Modellemesi](https://github.com/KB-Silence/JavaCampD6HomeWork1)**  
-**[Katmanlar ile ilgili Kısa Özet](https://github.com/KB-Silence/JavaCampD7HomeWork)**
+**[Veritabanı Modellemesi](https://github.com/KB-Silence/JavaCampHomeWorks/tree/master/HRMS-PostgreSQL)**  
+**[Katmanlar ile ilgili Kısa Özet](https://github.com/KB-Silence/JavaCampHomeWorks/tree/master/homework-6)**
 
 *İletişim*    
 *[Instagram](https://www.instagram.com/brkcnsrbstt/)*  
